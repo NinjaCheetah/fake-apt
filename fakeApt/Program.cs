@@ -5,6 +5,8 @@ namespace fakeApt
 {
     class Program
     {
+        public static string username = Environment.UserName;
+        public static string devicename = Environment.MachineName;
         public static int installedDirectories;
         public static int archiveSize;
         public static int diskSpace;
@@ -18,7 +20,7 @@ namespace fakeApt
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("ninjacheetah@MintPad-tm");
+            Console.Write(username+"@"+devicename);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(":");
             Console.ForegroundColor = ConsoleColor.Blue;
