@@ -2,9 +2,9 @@ name: .NET Core
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -16,10 +16,19 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 5.0.101
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fakeApt-latest
+        mv fakeApt/bin/Release/net5.0/* ~/fakeApt-latest
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fakeApt-latest/*
+        name: fakeApt-latest
