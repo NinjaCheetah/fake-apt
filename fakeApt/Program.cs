@@ -26,6 +26,8 @@ namespace fakeApt
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("$ sudo apt install ");
             var fakePackage = Console.ReadLine();
+            if(fakePackage=="BSOD") SecretBSOD();
+            if(fakePackage=="spam") SecretSpam();
             Console.Write("Reading package lists... ");
             Thread.Sleep(600);
             Console.WriteLine("Done");
@@ -49,7 +51,7 @@ namespace fakeApt
             v2 = generator.RandomNumber(0, 50);
             v3 = generator.RandomNumber(0, 9);
             v4 = generator.RandomNumber(0, 9);
-            Console.WriteLine("After this operation, "+diskSpace+" mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 "+fakePackage+" amd64 "+v1+":"+v2+"."+v3+"."+v4+" ["+archiveSize+"]");
+            Console.WriteLine("After this operation, "+diskSpace+" mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 "+fakePackage+" amd64 "+v1+":"+v2+"."+v3+"."+v4+" ["+archiveSize+" mB]");
             downloadTime = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime);
             Console.WriteLine("Fetched "+archiveSize+" mB in "+downloadTime+"ms");
@@ -66,6 +68,26 @@ namespace fakeApt
             Thread.Sleep(2000);
             Console.WriteLine("Processing triggers for man-db (2.9.1-1) ...\n");
             Thread.Sleep(2000);
+        }
+
+        public static void SecretBSOD() {
+            Thread.Sleep(2500);
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
+            Console.WriteLine(":(");
+            Console.WriteLine("An error has occurred. Press any key to exit apt.");
+            Console.ReadKey();
+            Console.ResetColor();
+            Console.Clear();
+            Environment.Exit(0);
+        }
+
+        public static void SecretSpam() {
+            Thread.Sleep(2500);
+            Console.Clear();
+            while (true) {
+                Console.WriteLine("Ctrl-C");
+            }
         }
 
         public class RandomGenerator  
