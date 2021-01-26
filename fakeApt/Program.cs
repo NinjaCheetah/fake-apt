@@ -96,9 +96,11 @@ namespace fakeApt
             Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {fakePackage} amd64 {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
             downloadTime = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime);
-            if(getDependencies == true) Console.WriteLine($"Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {dependency} amd64 [{archiveSize2} mB]");
+            if(getDependencies == true){ 
+            Console.WriteLine($"Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {dependency} amd64 [{archiveSize2} mB]");
             downloadTime2 = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime2);
+            }
             totalDownTime = downloadTime + downloadTime2;
             Console.WriteLine("Fetched "+totalDownSize+" mB in "+totalDownTime+"ms");
             Thread.Sleep(850);
