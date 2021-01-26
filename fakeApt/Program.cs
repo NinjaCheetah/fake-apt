@@ -8,9 +8,17 @@ namespace fakeApt
         public static string username = Environment.UserName;
         public static string devicename = Environment.MachineName;
         public static int installedDirectories;
+        public static int randGetDependencies;
+        public static bool getDependencies;
+        public static int selectedDependency;
+        public static string dependency;
         public static int archiveSize;
         public static int diskSpace;
         public static int downloadTime;
+        public static int archiveSize2;
+        public static int downloadTime2;
+        public static int totalDownSize;
+        public static int totalDownTime;
         public static int v1;
         public static int v2;
         public static int v3;
@@ -18,6 +26,10 @@ namespace fakeApt
 
         static void Main(string[] args)
         {
+            var generator = new RandomGenerator();
+            randGetDependencies = generator.RandomNumber(1,3);
+            if(randGetDependencies == 1) getDependencies = true;
+            else getDependencies = false;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(username+"@"+devicename);
@@ -31,32 +43,64 @@ namespace fakeApt
             if(fakePackage=="BSOD") SecretBSOD();
             if(fakePackage=="spam") SecretSpam();
             Console.Write("Reading package lists... ");
-            Thread.Sleep(600);
+            Thread.Sleep(750);
             Console.WriteLine("Done");
             Console.WriteLine("Building dependency tree");
-            Thread.Sleep(750);
+            Thread.Sleep(800);
             Console.Write("Reading state information... ");
-            Thread.Sleep(750);
+            Thread.Sleep(800);
             Console.WriteLine("Done");
-            Thread.Sleep(850);
+            Thread.Sleep(900);
+            if(getDependencies == true) {
+                var generator2 = new RandomGenerator();
+                selectedDependency = generator2.RandomNumber(1,5);
+                switch (selectedDependency) {
+                    case 1:
+                        dependency = "linux-headers-generic";
+                        break;
+                    case 2:
+                        dependency = "linux-kernel";
+                        break;
+                    case 3:
+                        dependency = "python3";
+                        break;
+                    case 4:
+                        dependency = "apt";
+                        break;
+                    case 5:
+                        dependency = "javascript";
+                        break;
+                }
+            }
             Console.WriteLine("The following NEW packages will be installed:");
-            Console.WriteLine("  " + fakePackage);
+            Console.WriteLine("  " + fakePackage + "  " + dependency);
             Thread.Sleep(850);
-            Console.WriteLine("0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.");
+            archiveSize = generator.RandomNumber(1, 96);
+            archiveSize2 = generator.RandomNumber(1, 84);
+            if(getDependencies == true){ 
+                Console.WriteLine("0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.");
+                totalDownSize = archiveSize + archiveSize2;
+            }
+            else if(getDependencies == false) {
+                Console.WriteLine("0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.");
+                totalDownSize = archiveSize;
+            }
             Thread.Sleep(750);
-            var generator = new RandomGenerator();
-            archiveSize = generator.RandomNumber(1, 84);
-            Console.WriteLine("Need to get " + archiveSize + " mB of archives.");
+            Console.WriteLine("Need to get " + totalDownSize + " mB of archives.");
             Thread.Sleep(250);
-            diskSpace = archiveSize + generator.RandomNumber(1, 84);
+            diskSpace = totalDownSize + generator.RandomNumber(1, 84);
             v1 = generator.RandomNumber(0, 25);
             v2 = generator.RandomNumber(0, 50);
             v3 = generator.RandomNumber(0, 9);
             v4 = generator.RandomNumber(0, 9);
-            Console.WriteLine("After this operation, "+diskSpace+" mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 "+fakePackage+" amd64 "+v1+":"+v2+"."+v3+"."+v4+" ["+archiveSize+" mB]");
+            Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {fakePackage} amd64 {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
             downloadTime = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime);
-            Console.WriteLine("Fetched "+archiveSize+" mB in "+downloadTime+"ms");
+            if(getDependencies == true) Console.WriteLine($"Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {dependency} amd64 [{archiveSize2} mB]");
+            downloadTime2 = generator.RandomNumber(750, 6000);
+            Thread.Sleep(downloadTime2);
+            totalDownTime = downloadTime + downloadTime2;
+            Console.WriteLine("Fetched "+totalDownSize+" mB in "+totalDownTime+"ms");
             Thread.Sleep(850);
             Console.WriteLine("Selecting previously unselected package "+fakePackage+".");
             installedDirectories = generator.RandomNumber(10000, 800000);
