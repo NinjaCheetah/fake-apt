@@ -104,7 +104,7 @@ namespace fakeApt
             v2 = generator.RandomNumber(0, 50);
             v3 = generator.RandomNumber(0, 9);
             v4 = generator.RandomNumber(0, 9);
-            Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe {achitecture} {fakePackage} {architecture} {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
+            Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe {architecture} {fakePackage} {architecture} {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
             downloadTime = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime);
             if(getDependencies == true){ 
