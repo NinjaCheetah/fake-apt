@@ -7,6 +7,7 @@ namespace fakeApt
     {
         public static string username = Environment.UserName;
         public static string devicename = Environment.MachineName;
+        public static string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")
         public static int installedDirectories;
         public static int randGetDependencies;
         public static bool getDependencies;
@@ -56,7 +57,7 @@ namespace fakeApt
             Thread.Sleep(900);
             if(getDependencies == true) {
                 var generator2 = new RandomGenerator();
-                selectedDependency = generator2.RandomNumber(1,5);
+                selectedDependency = generator2.RandomNumber(1,7);
                 switch (selectedDependency) {
                     case 1:
                         dependencySuffix = "-runtime";
@@ -75,6 +76,9 @@ namespace fakeApt
                         break;
                     case 6:
                         dependencySuffix = "-dev";
+                        break;
+                    case 7:
+                        dependencySuffix = "-data";
                         break;
                 }
             }
@@ -100,11 +104,11 @@ namespace fakeApt
             v2 = generator.RandomNumber(0, 50);
             v3 = generator.RandomNumber(0, 9);
             v4 = generator.RandomNumber(0, 9);
-            Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {fakePackage} amd64 {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
+            Console.WriteLine($"After this operation, {diskSpace} mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe {achitecture} {fakePackage} {architecture} {v1}:{v2}.{v3}.{v4} [{archiveSize} mB]");
             downloadTime = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime);
             if(getDependencies == true){ 
-            Console.WriteLine($"Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 {dependency} amd64 [{archiveSize2} mB]");
+            Console.WriteLine($"Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe {architecture} {dependency} {architecture} [{archiveSize2} mB]");
             downloadTime2 = generator.RandomNumber(750, 6000);
             Thread.Sleep(downloadTime2);
             }
@@ -115,7 +119,7 @@ namespace fakeApt
             installedDirectories = generator.RandomNumber(10000, 800000);
             Thread.Sleep(850);
             Console.WriteLine("(Reading database ... "+installedDirectories+" files and directories currently installed.)");
-            Console.WriteLine("Preparing to unpack .../"+fakePackage+"_"+v1+":"+v2+"."+v3+"."+v4+"-amd64.deb ...");
+            Console.WriteLine("Preparing to unpack .../"+fakePackage+"_"+v1+":"+v2+"."+v3+"."+v4+"-{architecture}.deb ...");
             Thread.Sleep(750);
             Console.WriteLine("Unpacking "+fakePackage+" ("+v1+":"+v2+"."+v3+"."+v4+") ...");
             Thread.Sleep(2000);
