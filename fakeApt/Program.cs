@@ -19,6 +19,7 @@ namespace fakeApt
         public static int downloadTime2;
         public static int totalDownSize;
         public static int totalDownTime;
+        public static string dependencySuffix;
         public static int v1;
         public static int v2;
         public static int v3;
@@ -27,7 +28,7 @@ namespace fakeApt
         static void Main(string[] args)
         {
             var generator = new RandomGenerator();
-            randGetDependencies = generator.RandomNumber(1,3);
+            randGetDependencies = generator.RandomNumber(1,2);
             if(randGetDependencies == 1) getDependencies = true;
             else getDependencies = false;
             Console.Clear();
@@ -42,6 +43,8 @@ namespace fakeApt
             var fakePackage = Console.ReadLine();
             if(fakePackage=="BSOD") SecretBSOD();
             if(fakePackage=="spam") SecretSpam();
+            Console.Write($"[sudo] password for {username}: ");
+            Console.ReadLine();
             Console.Write("Reading package lists... ");
             Thread.Sleep(750);
             Console.WriteLine("Done");
@@ -56,22 +59,26 @@ namespace fakeApt
                 selectedDependency = generator2.RandomNumber(1,5);
                 switch (selectedDependency) {
                     case 1:
-                        dependency = "linux-headers-generic";
+                        dependencySuffix = "-runtime";
                         break;
                     case 2:
-                        dependency = "linux-kernel";
+                        dependencySuffix = "-man";
                         break;
                     case 3:
-                        dependency = "python3";
+                        dependencySuffix = "-headers";
                         break;
                     case 4:
-                        dependency = "apt";
+                        dependencySuffix = "-config";
                         break;
                     case 5:
-                        dependency = "javascript";
+                        dependencySuffix = "-utils";
+                        break;
+                    case 6:
+                        dependencySuffix = "-dev";
                         break;
                 }
             }
+            if(getDependencies == true)dependency = $"{fakePackage}{dependencySuffix}";
             Console.WriteLine("The following NEW packages will be installed:");
             Console.WriteLine("  " + fakePackage + "  " + dependency);
             Thread.Sleep(850);
