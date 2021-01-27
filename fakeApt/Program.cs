@@ -7,7 +7,7 @@ namespace fakeApt
     {
         public static string username = Environment.UserName;
         public static string devicename = Environment.MachineName;
-        public static string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")
+        public static string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
         public static int installedDirectories;
         public static int randGetDependencies;
         public static bool getDependencies;
