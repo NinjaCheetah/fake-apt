@@ -7,7 +7,8 @@ namespace fakeApt
     {
         public static string username = Environment.UserName;
         public static string devicename = Environment.MachineName;
-        public static string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+        public static bool is64 = Environment.Is64BitOperatingSystem;
+        public static string architecture;
         public static int installedDirectories;
         public static int randGetDependencies;
         public static bool getDependencies;
@@ -32,6 +33,8 @@ namespace fakeApt
             randGetDependencies = generator.RandomNumber(1,2);
             if(randGetDependencies == 1) getDependencies = true;
             else getDependencies = false;
+            if(is64==true) architecture = "amd64";
+            else architecture = "i386";
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(username+"@"+devicename);
@@ -118,12 +121,12 @@ namespace fakeApt
             Console.WriteLine("Selecting previously unselected package "+fakePackage+".");
             installedDirectories = generator.RandomNumber(10000, 800000);
             Thread.Sleep(850);
-            Console.WriteLine("(Reading database ... "+installedDirectories+" files and directories currently installed.)");
-            Console.WriteLine("Preparing to unpack .../"+fakePackage+"_"+v1+":"+v2+"."+v3+"."+v4+"-{architecture}.deb ...");
+            Console.WriteLine($"(Reading database ... {installedDirectories} files and directories currently installed.)");
+            Console.WriteLine($"Preparing to unpack .../{fakePackage}_{v1}:{v2}.{v3}.{v4}-{architecture}.deb ...");
             Thread.Sleep(750);
-            Console.WriteLine("Unpacking "+fakePackage+" ("+v1+":"+v2+"."+v3+"."+v4+") ...");
+            Console.WriteLine($"Unpacking {fakePackage} ({v1}:{v2}.{v3}.{v4}) ...");
             Thread.Sleep(2000);
-            Console.WriteLine("Setting up "+fakePackage+" ("+v1+":"+v2+"."+v3+"."+v4+") ...");
+            Console.WriteLine($"Setting up {fakePackage} ({v1}:{v2}.{v3}.{v4}) ...");
             Thread.Sleep(2000);
             Console.WriteLine("Processing triggers for man-db (2.9.1-1) ...\n");
             Thread.Sleep(2000);
