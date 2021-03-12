@@ -55,8 +55,8 @@ int main(void){
     getRand(&installedDirectories,8000000);
     // "Coin flip" to see if we're going to get a dependency or not
     getRand(&randGetDependencies,2);
-    if(randGetDependencies==1)getDependencies=true;
-    if(getDependencies=true){
+    getDependencies=randGetDependencies;
+    if(getDependencies==true){
         // Choose what dependency suffix to use if the coin flip was a 1
         getRand(&selectedDependency,8);
         switch(selectedDependency){
@@ -85,8 +85,8 @@ int main(void){
     getRand(&archiveSize,96);
     getRand(&archiveSize2,84);
     // Combine sizes if there's going to be a dependency, if there's not then don't
-    if(getDependencies=true)totalDownSize=archiveSize+archiveSize2;
-    else if(getDependencies=false)totalDownSize=archiveSize;
+    if(getDependencies==true)totalDownSize=archiveSize+archiveSize2;
+    else totalDownSize=archiveSize;
     // Get total disk space needed
     getRand(&extractSize, 84);
     diskSpace=totalDownSize+extractSize;
@@ -109,14 +109,17 @@ int main(void){
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
     #endif
     #ifdef __APPLE__
-
+        int len = strlen(host);
+        host[len-6] = '\0';
+        printf("%s:~ %s$ sudo apt install ",host,usr);
     #endif
     scanf("%s", fakePackage);
     // Remove newline character
     strtok(fakePackage,"\n");
     // Now that we have the package, we can assemble the dependency using the pre-generated suffix
-    strcpy(dependency,fakePackage);
-    strcat(dependency,dependencySuffix);
+    if(getDependencies==true){
+        strcpy(dependency,fakePackage);
+        strcat(dependency,dependencySuffix);}
     // Fake password prompt
     printf("[sudo] password for %s: ",usr);
     // Just using a getchar() so you can enter whatever as the password and I don't have to store it
@@ -136,7 +139,7 @@ int main(void){
     printf("The following NEW packages will be installed:\n");
     printf("  %s  %s\n",fakePackage,dependency);
     // If there's a dependency say 2 new packages, if not say 1
-    if(getDependencies=true)printf("0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.\n");
+    if(getDependencies==true)printf("0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.\n");
     else printf("0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.\n");
     usleep(750000);
     // Get that nice pre-generated archive size and then output how much space it will use
@@ -145,7 +148,7 @@ int main(void){
     printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",diskSpace,fakePackage,v1,v2,v3,v4,archiveSize);
     sleep(downloadTime);
     // If there's a dependency, download that too
-    if(getDependencies=true){
+    if(getDependencies==true){
         printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 [%d mB]\n",fakePackage,archiveSize2);
         sleep(downloadTime2);}
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime);
