@@ -7,8 +7,6 @@
 // Declare variables
 char usr[32];
 char host[64];
-//bool is64 = Environment.Is64BitOperatingSystem;
-//char architecture[];
 int installedDirectories;
 int randGetDependencies = false;
 bool getDependencies;
@@ -57,7 +55,7 @@ int main(void){
     getRand(&randGetDependencies,2);
     getDependencies=randGetDependencies;
     if(getDependencies==true){
-        // Choose what dependency suffix to use if the coin flip was a 1
+        // Choose what dependency suffix to use if the coin flip was true
         getRand(&selectedDependency,8);
         switch(selectedDependency){
             case 1:
@@ -81,7 +79,7 @@ int main(void){
             case 7:
                 strcpy(dependencySuffix,"-data");
                 break;}}
-    // Get archive sizes, second will go unused if coin flip is 0
+    // Get archive sizes, second will go unused if coin flip is false
     getRand(&archiveSize,96);
     getRand(&archiveSize2,84);
     // Combine sizes if there's going to be a dependency, if there's not then don't
@@ -99,7 +97,7 @@ int main(void){
     getRand(&v1,25);
     getRand(&v2,50);
     getRand(&v3,9);
-    getRand(&v4,9);    
+    getRand(&v4,9);
     // Start actually doing stuff
     clrScrn();
     #ifdef _WIN32
