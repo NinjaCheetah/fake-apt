@@ -26,6 +26,34 @@ jobs:
       with:
         path: ~/fake-apt-linux/*
         name: fake-apt-linux
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Windows 32-bit
+      run: make win32
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fake-apt-win32
+        mv bin/* ~/fake-apt-win32
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fake-apt-win32
+        name: fake-apt-win32
+    - name: Build Windows 64-bit
+      run: make win64
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fake-apt-win64
+        mv bin/* ~/fake-apt-win64
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fake-apt-win64
+        name: fake-apt-win64
   build-macos-intel:
 
     runs-on: macos-10.15
