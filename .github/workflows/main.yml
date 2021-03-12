@@ -1,4 +1,4 @@
-name: CI
+name: make all
  
 on:
   push:
@@ -43,3 +43,20 @@ jobs:
       with:
         path: ~/fake-apt-macX86
         name: fake-apt-macX86
+  build-macos-arm:
+
+    runs-on: macos-11.0
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build macOS
+      run: make macARM
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fake-apt-macARM
+        mv bin/* ~/fake-apt-macARM
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fake-apt-macARM
+        name: fake-apt-macARM
