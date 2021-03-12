@@ -4,9 +4,6 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#ifdef _WIN32
-#include <winbase.h>
-#endif
 // Declare variables
 char usr[32];
 char host[64];
@@ -50,17 +47,8 @@ int clrScrn() {
 int main(void){
     // Get all variables and random numbers set
     // Hostname and Username
-    #ifdef _WIN32
-        GetUserNameA(usr,32);
-    #endif
-    #ifdef unix
-        getlogin_r(usr,32);
-        gethostname(host,64);
-    #endif
-    #ifdef __APPLE__
-        getlogin_r(usr,32);
-        gethostname(host,64);
-    #endif
+    getlogin_r(usr,32);
+    gethostname(host,64);
     // Number of installed directories (I'm honestly not even sure what that means)
     getRand(&installedDirectories,8000000);
     // "Coin flip" to see if we're going to get a dependency or not
@@ -112,8 +100,6 @@ int main(void){
     getRand(&v4,9);
     // Start actually doing stuff
     clrScrn();
-    #ifdef _WIN32
-    #endif
     #ifdef unix
         // If unix, use unix color scheme
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
