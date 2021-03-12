@@ -1,0 +1,45 @@
+name: CI
+ 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Linux
+      run: make linux
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fake-apt-linux
+        mv bin/* ~/fake-apt-linux
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fake-apt-linux/*
+        name: fake-apt-linux
+  build-macos-intel:
+
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build macOS
+      run: make macX86
+    - name: Pack Build Files
+      run: |
+        mkdir ~/fake-apt-macX86
+        mv bin/* ~/fake-apt-macX86
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/fake-apt-macX86
+        name: fake-apt-macX86
