@@ -29,7 +29,6 @@ int v4;
 // Start code
 int getRand(int *var,int maxNum){
     // Get the random number, seed is taken from the time
-    srand(time(0));
     *var = rand() % maxNum;
 }
 int clrScrn() {
@@ -46,6 +45,8 @@ int clrScrn() {
 }
 int main(void){
     // Get all variables and random numbers set
+    // Set rand() seed
+    srand(time(0));
     // Hostname and Username
     getlogin_r(usr,32);
     gethostname(host,64);
@@ -101,10 +102,11 @@ int main(void){
     // Start actually doing stuff
     clrScrn();
     #ifdef unix
-        // If unix, use unix color scheme
+        // If unix, use debian-style prompt format
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
     #endif
     #ifdef __APPLE__
+        // If macOS, use macOS prompt format
         int len = strlen(host);
         host[len-6] = '\0';
         printf("%s:~ %s$ sudo apt install ",host,usr);
