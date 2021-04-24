@@ -33,7 +33,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build macOS
-      run: make macX86
+      run: make mac
     - name: Pack Build Files
       run: |
         mkdir ~/fake-apt-macX86
