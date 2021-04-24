@@ -30,8 +30,9 @@ int v4;
 int getRand(int *var,int maxNum){
     // Get the random number, seed is taken from the time
     *var = rand() % maxNum;
+    return(0);
 }
-int clrScrn() {
+void clrScrn(){
     // Screen clear fucntion, checks OS first for compatibility:tm:
     #ifdef _WIN32
         system("cls");
