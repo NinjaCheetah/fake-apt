@@ -105,12 +105,14 @@ int main(void){
     #ifdef unix
         // If unix, use debian-style prompt format
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
+        fflush(stdout);
     #endif
     #ifdef __APPLE__
         // If macOS, use macOS prompt format
         int len = strlen(host);
         host[len-6] = '\0';
         printf("%s:~ %s$ sudo apt install ",host,usr);
+        fflush(stdout);
     #endif
     scanf("%s", fakePackage);
     // Remove newline character
@@ -121,6 +123,7 @@ int main(void){
         strcat(dependency,dependencySuffix);}
     // Fake password prompt
     printf("[sudo] password for %s: ",usr);
+    fflush(stdout);
     // Just using a getchar() so you can enter whatever as the password and I don't have to store it
     getchar();
     getchar();
