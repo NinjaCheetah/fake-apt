@@ -18,5 +18,4 @@ macARM:
 	gcc -target arm64-apple-macos11 $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)ARM
 
 clean:
-	rm -f bin/*
-	rm -rd bin/
+	rm -rf bin/
