@@ -1,4 +1,5 @@
 /.vscode
+*.DS_[Ss]tore
 [Bb]in/
 [Oo]bj/
 [Tt]mp/
