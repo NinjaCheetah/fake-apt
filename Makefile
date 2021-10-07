@@ -1,5 +1,4 @@
 CC = gcc
-CCMAC = gcc-11
 TARGET = fake-apt
 CFLAGS = -Wall -O2
 
@@ -10,13 +9,18 @@ linux:
 	$(CC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)
 
 # Note that the mac executables can only be compiled on mac
-mac:
+macX86:
 	mkdir -p bin/
-	$(CCMAC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)X86
+	$(CC) $(TARGET)/main.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/$(TARGET)X86
 
 macARM:
 	mkdir -p bin/
-	$(CCMAC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)ARM
+	$(CC) $(TARGET)/main.c $(CFLAGS) -target arm64-apple-macos11 -o bin/$(TARGET)ARM
+
+mac: macX86 macARM
+	lipo -create bin/$(TARGET)X86 bin/$(TARGET)ARM -output bin/$(TARGET)-macOS
+	rm bin/$(TARGET)X86
+	rm bin/$(TARGET)ARM
 
 clean:
 	rm -rf bin/
