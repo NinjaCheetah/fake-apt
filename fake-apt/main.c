@@ -25,7 +25,6 @@ int archiveSize2;
 int downloadTime2;
 int totalDownSize;
 int totalDownTime;
-char dependencySuffix[32];
 int v1,v2,v3,v4;
 // Start code
 int getRand(int *var,int maxNum){
@@ -37,11 +36,9 @@ void clrScrn(){
     // Screen clear fucntion, checks OS first for compatibility:tm:
     #ifdef _WIN32
         system("cls");
-    #endif
-    #ifdef unix
+    #elif unix
         system("clear");
-    #endif
-    #ifdef __APPLE__
+    #elif __APPLE__
         system( "clear" );
     #endif
 }
@@ -63,30 +60,31 @@ int main(void){
     getRand(&installedDirectories,8000000);
     // "Coin flip" to see if we're going to get a dependency or not
     getRand(&randGetDependencies,2);
+    char *dependencySuffix=malloc(32);
     if(randGetDependencies==1){
         // Choose what dependency suffix to use if the coin flip was true
         getRand(&selectedDependency,8);
         switch(selectedDependency){
             case 1:
-                strcpy(dependencySuffix,"-runtime");
+                dependencySuffix="-runtime";
                 break;
             case 2:
-                strcpy(dependencySuffix,"-man");
+                dependencySuffix="-man";
                 break;
             case 3:
-                strcpy(dependencySuffix,"-headers");
+                dependencySuffix="-headers";
                 break;
             case 4:
-                strcpy(dependencySuffix,"-config");
+                dependencySuffix="-config";
                 break;
             case 5:
-                strcpy(dependencySuffix,"-utils");
+                dependencySuffix="-utils";
                 break;
             case 6:
-                strcpy(dependencySuffix,"-dev");
+                dependencySuffix="-dev";
                 break;
             case 7:
-                strcpy(dependencySuffix,"-data");
+                dependencySuffix="-data";
                 break;
         }
     }
