@@ -26,7 +26,29 @@ jobs:
       with:
         path: ~/fake-apt-linux/*
         name: fake-apt-linux
-  build-macos-intel:
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.10.0
+    - name: Build For Windows
+      id: build-windows
+      run: make win
+    - name: Pack Build Files and Generate Checksums
+      run: |
+        mkdir D:\a\fake-apt\fake-apt-windows
+        mv D:\a\fake-apt\fake-apt\bin\* D:\a\fake-apt\fake-apt-windows
+        cd D:\a\fake-apt
+        tar -cvf fake-apt-windows.tar fake-apt-windows\*
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: D:\a\fake-apt\fake-apt-windows.tar
+        name: fake-apt-windows
+  build-macos:
 
     runs-on: macos-11
 
@@ -36,10 +58,10 @@ jobs:
       run: make mac
     - name: Pack Build Files
       run: |
-        mkdir ~/fake-apt-macX86
-        mv bin/* ~/fake-apt-macX86
+        mkdir ~/fake-apt-macOS
+        mv bin/* ~/fake-apt-macOS
     - name: Publish Build Files
       uses: actions/upload-artifact@v2
       with:
-        path: ~/fake-apt-macX86
-        name: fake-apt-macX86
+        path: ~/fake-apt-macOS
+        name: fake-apt-macOS

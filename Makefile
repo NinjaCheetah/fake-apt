@@ -1,5 +1,6 @@
 CC = gcc
 TARGET = fake-apt
+WINFLAGS = /W3 /O1 /GS-
 CFLAGS = -Wall -O2
 
 all: linux
@@ -7,6 +8,9 @@ all: linux
 linux:
 	mkdir -p bin/
 	$(CC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)
+
+windows:
+	cl $(WINFLAGS) $(TARGET)\main.c /link /out:bin\$(TARGET).exe
 
 # Note that the mac executables can only be compiled on mac
 macX86:

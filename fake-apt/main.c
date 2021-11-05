@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <time.h>
 #include <string.h>
+// Code to use different headers in Windows
+#ifdef _WIN32
+  #include <Windows.h>
+  #include <winsock.h>
+  #define sleep(x) Sleep(x*1000)
+  #define usleep(x) Sleep(x/1000)
+#else
+  #include <unistd.h>
+#endif
 // Declare variables
 char usr[32];
 char host[64];
@@ -47,7 +55,11 @@ int main(void){
     // Set rand() seed
     srand(time(0));
     // Hostname and Username
-    getlogin_r(usr,32);
+    #ifdef _WIN32
+      GetUserName(usr,32);
+    #else
+      getlogin_r(usr,32);
+    #endif
     gethostname(host,64);
     // Number of installed directories (I'm honestly not even sure what that means)
     getRand(&installedDirectories,8000000);
