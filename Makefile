@@ -1,7 +1,7 @@
 CC = gcc
 TARGET = fake-apt
 WINFLAGS = /W3 /O1 /GS-
-WINLIBS = kernel32.lib ws2_32.lib
+WINLIBS = kernel32.lib advapi32.lib ws2_32.lib
 CFLAGS = -Wall -O2
 
 all: linux
