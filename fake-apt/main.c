@@ -11,21 +11,6 @@
 #else
   #include <unistd.h>
 #endif
-// Declare variables
-int installedDirectories;
-int randGetDependencies;
-int selectedDependency;
-char dependency[96];
-char fakePackage[64];
-int archiveSize;
-int diskSpace;
-int extractSize;
-int downloadTime;
-int archiveSize2;
-int downloadTime2;
-int totalDownSize;
-int totalDownTime;
-int v1,v2,v3,v4;
 // Start code
 int getRand(int *var,int maxNum){
     // Get the random number, seed is taken from the time
@@ -57,56 +42,52 @@ int main(void){
       gethostname(host,64);
     #endif
     // Number of installed directories (I'm honestly not even sure what that means)
+    int installedDirectories;
     getRand(&installedDirectories,8000000);
     // "Coin flip" to see if we're going to get a dependency or not
+    int randGetDependencies;
     getRand(&randGetDependencies,2);
-    char *dependencySuffix=malloc(32);
-    if(randGetDependencies==1){
-        // Choose what dependency suffix to use if the coin flip was true
-        getRand(&selectedDependency,8);
-        switch(selectedDependency){
-            case 1:
-                dependencySuffix="-runtime";
-                break;
-            case 2:
-                dependencySuffix="-man";
-                break;
-            case 3:
-                dependencySuffix="-headers";
-                break;
-            case 4:
-                dependencySuffix="-config";
-                break;
-            case 5:
-                dependencySuffix="-utils";
-                break;
-            case 6:
-                dependencySuffix="-dev";
-                break;
-            case 7:
-                dependencySuffix="-data";
-                break;
-        }
+    //char *dependencySuffix=malloc(32);
+    char dependencySuffix[32];
+    char *deps[] = {"-runtime", "-man", "-headers", "-config", "-utils", "-dev", "-data"};
+    if(randGetDependencies){
+      int selectedDependency;
+      getRand(&selectedDependency,8);
+      strcpy(dependencySuffix, deps[selectedDependency - 1]);
     }
     // Get archive sizes, second will go unused if coin flip is false
+    int archiveSize, archiveSize2;
     getRand(&archiveSize,96);
     getRand(&archiveSize2,84);
     // Combine sizes if there's going to be a dependency, if there's not then don't
+    int totalDownSize;
     if(randGetDependencies==1)totalDownSize=archiveSize+archiveSize2;
     else totalDownSize=archiveSize;
     // Get total disk space needed
+    int extractSize;
     getRand(&extractSize, 84);
+    int diskSpace;
     diskSpace=totalDownSize+extractSize;
     // Get download time
+    int downloadTime, downloadTime2;
     getRand(&downloadTime,8);
     getRand(&downloadTime2,6);
     // Combine them for the displayed download time
+    int totalDownTime;
     totalDownTime=downloadTime+downloadTime2;
     // Get all the various version numbers
-    getRand(&v1,25);
-    getRand(&v2,50);
-    getRand(&v3,9);
-    getRand(&v4,9);
+    int verMax[4]={25,50,9,9};
+    int versions[4];
+    int versionsd[4];
+    int i;
+    for(i=0;i<4;i++){
+      getRand(&versions[i],verMax[i]);
+    }
+    if(randGetDependencies){
+      for(i=0;i<4;i++){
+        getRand(&versionsd[i],verMax[i]);
+      }
+    }
     // Start actually doing stuff
     clrScrn();
     #ifdef _WIN32
@@ -124,10 +105,12 @@ int main(void){
         printf("%s:~ %s$ sudo apt install ",host,usr);
         fflush(stdout);
     #endif
+    char fakePackage[64];
     scanf("%s", fakePackage);
     // Remove newline character
     strtok(fakePackage,"\n");
     // Now that we have the package, we can assemble the dependency using the pre-generated suffix
+    char dependency[96];
     if(randGetDependencies==1){
         strcpy(dependency,fakePackage);
         strcat(dependency,dependencySuffix);
@@ -158,11 +141,11 @@ int main(void){
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n",totalDownSize);
     usleep(250000);
-    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",diskSpace,fakePackage,v1,v2,v3,v4,archiveSize);
+    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",diskSpace,fakePackage,versions[0],versions[1],versions[2],versions[3],archiveSize);
     sleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
-        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 [%d mB]\n",fakePackage,archiveSize2);
+        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",fakePackage,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
         sleep(downloadTime2);
     }
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime);
@@ -171,12 +154,21 @@ int main(void){
     usleep(850000);
     printf("(Reading database ... %d files and directories currently installed.)\n",installedDirectories);
     // Use those nice version numbers
-    printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",fakePackage,v1,v2,v3,v4);
+    printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     usleep(750000);
-    printf("Unpacking %s (%d:%d.%d.%d) ...\n",fakePackage,v1,v2,v3,v4);
+    printf("Unpacking %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     sleep(2);
-    printf("Setting up %s (%d:%d.%d.%d) ...\n",fakePackage,v1,v2,v3,v4);
+    printf("Setting up %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     sleep(2);
+    if(randGetDependencies){
+      // Say the same thing for the dependency
+      printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
+      usleep(750000);
+      printf("Unpacking %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
+      sleep(2);
+      printf("Setting up %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
+      sleep(2);
+    }
     // In theory I will update this number if I notice that man-db has had an update
     printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
     sleep(2);
