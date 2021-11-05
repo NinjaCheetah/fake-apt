@@ -10,6 +10,7 @@ linux:
 	$(CC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)
 
 win:
+	mdkir bin
 	cl $(WINFLAGS) $(TARGET)\main.c /link /out:bin\$(TARGET).exe
 
 # Note that the mac executables can only be compiled on mac
