@@ -12,8 +12,6 @@
   #include <unistd.h>
 #endif
 // Declare variables
-char usr[32];
-char host[64];
 int installedDirectories;
 int randGetDependencies;
 int selectedDependency;
@@ -28,10 +26,7 @@ int downloadTime2;
 int totalDownSize;
 int totalDownTime;
 char dependencySuffix[32];
-int v1;
-int v2;
-int v3;
-int v4;
+int v1,v2,v3,v4;
 // Start code
 int getRand(int *var,int maxNum){
     // Get the random number, seed is taken from the time
@@ -55,13 +50,15 @@ int main(void){
     // Set rand() seed
     srand(time(0));
     // Hostname and Username
+    char usr[32];
     #ifdef _WIN32
       DWORD bufSiz = 32;
       GetUserNameA(usr,&bufSiz);
     #else
+      char host[64];
       getlogin_r(usr,32);
+      gethostname(host,64);
     #endif
-    gethostname(host,64);
     // Number of installed directories (I'm honestly not even sure what that means)
     getRand(&installedDirectories,8000000);
     // "Coin flip" to see if we're going to get a dependency or not
@@ -118,13 +115,11 @@ int main(void){
       // If Windows, use CMD-style prompt format
       printf("C:\\Users\\%s>sudo apt install ",usr);
       fflush(stdout);
-    #endif
-    #ifdef unix
+    #elseif unix
         // If unix, use debian-style prompt format
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
         fflush(stdout);
-    #endif
-    #ifdef __APPLE__
+    #elseif __APPLE__
         // If macOS, use macOS-style prompt format
         int len = strlen(host);
         host[len-6] = '\0';
