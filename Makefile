@@ -9,7 +9,7 @@ linux:
 	mkdir -p bin/
 	$(CC) $(TARGET)/main.c $(CFLAGS) -o bin/$(TARGET)
 
-windows:
+win:
 	cl $(WINFLAGS) $(TARGET)\main.c /link /out:bin\$(TARGET).exe
 
 # Note that the mac executables can only be compiled on mac
