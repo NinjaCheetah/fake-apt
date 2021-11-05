@@ -114,6 +114,11 @@ int main(void){
     getRand(&v4,9);
     // Start actually doing stuff
     clrScrn();
+    #ifdef _WIN32
+      // If Windows, use CMD-style prompt format
+      printf("C:\\Users\\%s>sudo apt install ",usr);
+      fflush(stdout);
+    #endif
     #ifdef unix
         // If unix, use debian-style prompt format
         printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
