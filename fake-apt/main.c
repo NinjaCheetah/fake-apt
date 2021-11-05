@@ -56,7 +56,8 @@ int main(void){
     srand(time(0));
     // Hostname and Username
     #ifdef _WIN32
-      GetUserName(usr,32);
+      DWORD bufSiz = 32;
+      GetUserNameA(usr,&bufSiz);
     #else
       getlogin_r(usr,32);
     #endif
