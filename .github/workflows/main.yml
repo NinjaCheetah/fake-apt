@@ -21,10 +21,12 @@ jobs:
       run: |
         mkdir ~/fake-apt-linux
         mv bin/* ~/fake-apt-linux
+        cd ~
+        tar -cvf fake-apt-linux.tar fake-apt-linux/
     - name: Publish Build Files
       uses: actions/upload-artifact@v2
       with:
-        path: ~/fake-apt-linux/*
+        path: ~/fake-apt-linux.tar
         name: fake-apt-linux
   build-windows:
 
@@ -37,7 +39,7 @@ jobs:
     - name: Build For Windows
       id: build-windows
       run: make win
-    - name: Pack Build Files and Generate Checksums
+    - name: Pack Build Files
       run: |
         mkdir D:\a\fake-apt\fake-apt-windows
         mv D:\a\fake-apt\fake-apt\bin\* D:\a\fake-apt\fake-apt-windows
@@ -60,8 +62,10 @@ jobs:
       run: |
         mkdir ~/fake-apt-macOS
         mv bin/* ~/fake-apt-macOS
+        cd ~
+        tar -cvf fake-apt-macOS.tar fake-apt-macOS/
     - name: Publish Build Files
       uses: actions/upload-artifact@v2
       with:
-        path: ~/fake-apt-macOS
+        path: ~/fake-apt-macOS.tar
         name: fake-apt-macOS
