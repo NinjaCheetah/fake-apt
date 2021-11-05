@@ -1,6 +1,7 @@
 CC = gcc
 TARGET = fake-apt
 WINFLAGS = /W3 /O1 /GS-
+WINLIBS = kernel32.lib winsock.lib
 CFLAGS = -Wall -O2
 
 all: linux
@@ -11,7 +12,7 @@ linux:
 
 win:
 	mkdir bin
-	cl $(WINFLAGS) $(TARGET)\main.c /link /out:bin\$(TARGET).exe
+	cl $(WINFLAGS) $(TARGET)\main.c /link $(WINLIBS) /out:bin\$(TARGET).exe
 
 # Note that the mac executables can only be compiled on mac
 macX86:
