@@ -2,16 +2,21 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-// Code to use different headers in Windows
+// Use different headers in Windows
 #ifdef _WIN32
   #include <Windows.h>
   #include <winsock.h>
-  #define sleep(x) Sleep(x*1000)
-  #define usleep(x) Sleep(x/1000)
 #else
   #include <unistd.h>
 #endif
 // Start code
+void msleep(int time){
+    #ifdef _WIN32
+      Sleep(time);
+    #else
+      usleep(time*1000);
+    #endif
+}
 int getRand(int *var,int maxNum){
     // Get the random number, seed is taken from the time
     *var=rand()%maxNum;
@@ -57,21 +62,22 @@ int main(void){
     }
     // Get archive sizes, second will go unused if coin flip is false
     int archiveSize, archiveSize2;
-    getRand(&archiveSize,96);
-    getRand(&archiveSize2,84);
+    getRand(&archiveSize,84);
+    getRand(&archiveSize2,64);
     // Combine sizes if there's going to be a dependency, if there's not then don't
     int totalDownSize;
     if(randGetDependencies==1)totalDownSize=archiveSize+archiveSize2;
     else totalDownSize=archiveSize;
     // Get total disk space needed
     int extractSize;
-    getRand(&extractSize, 84);
+    getRand(&extractSize,64);
     int diskSpace;
     diskSpace=totalDownSize+extractSize;
     // Get download time
     int downloadTime, downloadTime2;
-    getRand(&downloadTime,8);
-    getRand(&downloadTime2,6);
+    int downloadRate[6]={50,100,200,250,300,500};
+    downloadTime=archiveSize*downloadRate[rand()%6-1];
+    downloadTime2=archiveSize2*downloadRate[rand()%6-1];
     // Combine them for the displayed download time
     int totalDownTime;
     totalDownTime=downloadTime+downloadTime2;
@@ -123,13 +129,13 @@ int main(void){
     getchar();
     printf("Reading package lists... ");
     fflush(stdout);
-    usleep(850000);
+    msleep(850);
     printf("Done\n");
     printf("Building dependency tree\n");
-    usleep(900000);
+    msleep(900);
     printf("Reading state information... ");
     fflush(stdout);
-    usleep(900000);
+    msleep(900);
     printf("Done\n");
     // List packages, no need to check if there's a dependency because you won't notice anything if there isn't
     printf("The following NEW packages will be installed:\n");
@@ -137,40 +143,40 @@ int main(void){
     // If there's a dependency say 2 new packages, if not say 1
     if(randGetDependencies==1)printf("0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.\n");
     else printf("0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.\n");
-    usleep(750000);
+    msleep(750);
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n",totalDownSize);
-    usleep(250000);
+    msleep(250);
     printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",diskSpace,fakePackage,versions[0],versions[1],versions[2],versions[3],archiveSize);
-    sleep(downloadTime);
+    msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
         printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",fakePackage,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
-        sleep(downloadTime2);
+        msleep(downloadTime2);
     }
-    printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime);
-    usleep(850000);
+    printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime/1000);
+    msleep(850);
     printf("Selecting previously unselected package %s.\n",fakePackage);
-    usleep(850000);
+    msleep(850);
     printf("(Reading database ... %d files and directories currently installed.)\n",installedDirectories);
     // Use those nice version numbers
     printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
-    usleep(750000);
+    msleep(750);
     printf("Unpacking %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
-    sleep(2);
+    msleep(2000);
     printf("Setting up %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
-    sleep(2);
+    msleep(2000);
     if(randGetDependencies){
       // Say the same thing for the dependency
       printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
-      usleep(750000);
+      msleep(750);
       printf("Unpacking %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
-      sleep(2);
+      msleep(2000);
       printf("Setting up %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
-      sleep(2);
+      msleep(2000);
     }
     // In theory I will update this number if I notice that man-db has had an update
     printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
-    sleep(2);
+    msleep(2000);
     return(0);
 }
