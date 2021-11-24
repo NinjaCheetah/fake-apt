@@ -10,10 +10,10 @@
   #include <unistd.h>
 #endif
 // Set architecture
-#ifdef __aarch64__
+#if defined __aarch64__ || defined _M_ARM64
   char g_arch[]="arm64";
-#elif _M_ARM64
-  char g_arch[]="arm64";
+#elif defined i386 || defined __i386__ || defined __i386 || defined _M_IX86
+  char g_arch[]="i386";
 #else
   char g_arch[]="amd64";
 #endif
