@@ -9,6 +9,14 @@
 #else
   #include <unistd.h>
 #endif
+// Set architecture
+#ifdef __aarch64__
+  char g_arch[]="arm64";
+#elif _M_ARM64
+  char g_arch[]="arm64";
+#else
+  char g_arch[]="amd64";
+#endif
 // Start code
 void msleep(int time){
     #ifdef _WIN32
@@ -147,11 +155,11 @@ int main(void){
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n",totalDownSize);
     msleep(250);
-    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",diskSpace,fakePackage,versions[0],versions[1],versions[2],versions[3],archiveSize);
+    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",diskSpace,g_arch,fakePackage,g_arch,versions[0],versions[1],versions[2],versions[3],archiveSize);
     msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
-        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 %s amd64 %d:%d.%d.%d [%d mB]\n",fakePackage,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
+        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",g_arch,fakePackage,g_arch,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
         msleep(downloadTime2);
     }
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime/1000);
@@ -160,7 +168,7 @@ int main(void){
     msleep(850);
     printf("(Reading database ... %d files and directories currently installed.)\n",installedDirectories);
     // Use those nice version numbers
-    printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
+    printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3],g_arch);
     msleep(750);
     printf("Unpacking %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     msleep(2000);
@@ -168,7 +176,7 @@ int main(void){
     msleep(2000);
     if(randGetDependencies){
       // Say the same thing for the dependency
-      printf("Preparing to unpack .../%s_%d:%d.%d.%d-amd64.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
+      printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3],g_arch);
       msleep(750);
       printf("Unpacking %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
       msleep(2000);
