@@ -98,8 +98,8 @@ int main(void){
     // Get download time
     int downloadTime, downloadTime2;
     int downloadRate[6]={50,100,200,250,300,500};
-    downloadTime=archiveSize*downloadRate[rand()%6-1];
-    downloadTime2=archiveSize2*downloadRate[rand()%6-1];
+    downloadTime=archiveSize*downloadRate[rand()%6];
+    downloadTime2=archiveSize2*downloadRate[rand()%6];
     // Combine them for the displayed download time
     int totalDownTime;
     totalDownTime=downloadTime+downloadTime2;
