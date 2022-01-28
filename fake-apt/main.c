@@ -44,19 +44,18 @@ int getRand(int *var,int maxNum){
     *var=rand()%maxNum;
     return(0);
 }
-void clrScrn(){
-    // Screen clear fucntion, checks OS first for compatibility:tm:
-    #ifdef _WIN32
-      system("cls");
-    #elif unix
-      system("clear");
-    #elif __APPLE__
-      system( "clear" );
-    #endif
-}
-int main(void){
+int main(int argc,char *argv[]){
+    // Check args, abort if too few are passed
+    if(argc < 2) {
+        printf("Please specify an argument!\n");
+        return(0);
+    }
+    if(argc < 3 && (strcmp(argv[1], "install") == 0)) {
+        printf("Please specify the package you want to install!\n");
+        return(0);
+    }
     // Get all variables and random numbers set
-    // Set rand() seed
+    // Seed rand()
     srand(time(0));
     // Hostname and Username
     char usr[32];
@@ -117,25 +116,8 @@ int main(void){
       }
     }
     // Start actually doing stuff
-    clrScrn();
-    #ifdef _WIN32
-      // If Windows, use CMD-style prompt format
-      printf("C:\\Users\\%s>sudo apt install ",usr);
-      fflush(stdout);
-    #elif unix
-        // If unix, use debian-style prompt format
-        printf("\e[1;32m%s@%s\e[0m:\e[1;34m~\e[0m$ sudo apt install ",usr,host);
-        fflush(stdout);
-    #elif __APPLE__
-        // If macOS, use macOS-style prompt format
-        int len = strlen(host);
-        host[len-6] = '\0';
-        printf("%s:~ %s$ sudo apt install ",host,usr);
-        fflush(stdout);
-    #endif
-    char fakePackage[64];
-    scanf("%s", fakePackage);
-    // Remove newline character
+    char *fakePackage = argv[2];
+    // Remove newline character, if it exists
     strtok(fakePackage,"\n");
     // Now that we have the package, we can assemble the dependency using the pre-generated suffix
     char dependency[96];
@@ -143,12 +125,7 @@ int main(void){
         strcpy(dependency,fakePackage);
         strcat(dependency,dependencySuffix);
     }
-    // Fake password prompt
-    printf("[sudo] password for %s: ",usr);
-    fflush(stdout);
-    // Just using a getchar() so you can enter whatever as the password and I don't have to store it
-    getchar();
-    getchar();
+    // Run the fake install
     printf("Reading package lists... ");
     fflush(stdout);
     msleep(850);
@@ -197,7 +174,7 @@ int main(void){
       printf("Setting up %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
       msleep(2000);
     }
-    // In theory I will update this number if I notice that man-db has had an update
+    // In theory, I will update this number if I notice that man-db has had an update
     printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
     msleep(2000);
     return(0);
