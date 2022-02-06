@@ -57,16 +57,6 @@ int main(int argc,char *argv[]){
     // Get all variables and random numbers set
     // Seed rand()
     srand(time(0));
-    // Hostname and Username
-    char usr[32];
-    #ifdef _WIN32
-      DWORD bufSiz = 32;
-      GetUserNameA(usr,&bufSiz);
-    #else
-      char host[64];
-      getlogin_r(usr,32);
-      gethostname(host,64);
-    #endif
     // Number of installed directories (I'm honestly not even sure what that means)
     int installedDirectories;
     getRand(&installedDirectories,8000000);
@@ -115,7 +105,6 @@ int main(int argc,char *argv[]){
         getRand(&versionsd[i],verMax[i]);
       }
     }
-    // Start actually doing stuff
     char *fakePackage = argv[2];
     // Remove newline character, if it exists
     strtok(fakePackage,"\n");
@@ -126,6 +115,7 @@ int main(int argc,char *argv[]){
         strcat(dependency,dependencySuffix);
     }
     // Run the fake install
+    msleep(500);
     printf("Reading package lists... ");
     fflush(stdout);
     msleep(850);
