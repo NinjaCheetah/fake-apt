@@ -18,10 +18,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Use different headers in Windows
 #ifdef _WIN32
-  #include <Windows.h>
-  #include <winsock.h>
+    #include <Windows.h>
+    #include <winsock.h>
 #else
-  #include <unistd.h>
+    #include <unistd.h>
+    #define _countOf(x) (sizeof(x)/sizeof(*(x)))
 #endif
 // Set architecture
 #if defined __aarch64__ || defined _M_ARM64
@@ -39,10 +40,9 @@ void msleep(int time){
       usleep(time*1000);
     #endif
 }
-int getRand(int *var,int maxNum){
+int getRand(int maxNum){
     // Get the random number, seed is taken from the time
-    *var=rand()%maxNum;
-    return(0);
+    return(rand() % maxNum);
 }
 int main(int argc,char *argv[]){
     // Check args, abort if too few are passed
@@ -58,51 +58,38 @@ int main(int argc,char *argv[]){
     // Seed rand()
     srand(time(0));
     // Number of installed directories (I'm honestly not even sure what that means)
-    int installedDirectories;
-    getRand(&installedDirectories,8000000);
+    int installedDirectories = getRand(8000000);
     // "Coin flip" to see if we're going to get a dependency or not
-    int randGetDependencies;
-    getRand(&randGetDependencies,2);
-    //char *dependencySuffix=malloc(32);
-    char dependencySuffix[32];
+    int randGetDependencies = getRand(2);
     char *deps[] = {"-runtime", "-man", "-headers", "-config", "-utils", "-dev", "-data"};
-    if(randGetDependencies){
-      int selectedDependency;
-      getRand(&selectedDependency,8);
-      strcpy(dependencySuffix, deps[selectedDependency - 1]);
-    }
+    int selectedDependency = getRand(_countOf(deps));
     // Get archive sizes, second will go unused if coin flip is false
-    int archiveSize, archiveSize2;
-    getRand(&archiveSize,84);
-    getRand(&archiveSize2,64);
+    int archiveSize = getRand(84);
+    int archiveSize2 = getRand(64);
     // Combine sizes if there's going to be a dependency, if there's not then don't
     int totalDownSize;
-    if(randGetDependencies==1)totalDownSize=archiveSize+archiveSize2;
-    else totalDownSize=archiveSize;
+    if(randGetDependencies == 1) totalDownSize = archiveSize + archiveSize2;
+    else totalDownSize = archiveSize;
     // Get total disk space needed
-    int extractSize;
-    getRand(&extractSize,64);
-    int diskSpace;
-    diskSpace=totalDownSize+extractSize;
+    int extractSize = getRand(64);
+    int diskSpace = totalDownSize + extractSize;
     // Get download time
-    int downloadTime, downloadTime2;
     int downloadRate[6]={50,100,200,250,300,500};
-    downloadTime=archiveSize*downloadRate[rand()%6];
-    downloadTime2=archiveSize2*downloadRate[rand()%6];
+    int downloadTime = archiveSize * downloadRate[getRand(6)];
+    int downloadTime2 = archiveSize2 * downloadRate[getRand(6)];
     // Combine them for the displayed download time
-    int totalDownTime;
-    totalDownTime=downloadTime+downloadTime2;
+    int totalDownTime = downloadTime + downloadTime2;
     // Get all the various version numbers
     int verMax[4]={25,50,9,9};
     int versions[4];
     int versionsd[4];
     int i;
     for(i=0;i<4;i++){
-      getRand(&versions[i],verMax[i]);
+      versions[i] = getRand(verMax[i]);
     }
     if(randGetDependencies){
       for(i=0;i<4;i++){
-        getRand(&versionsd[i],verMax[i]);
+        versionsd[i] = getRand(verMax[i]);
       }
     }
     char *fakePackage = argv[2];
@@ -110,9 +97,9 @@ int main(int argc,char *argv[]){
     strtok(fakePackage,"\n");
     // Now that we have the package, we can assemble the dependency using the pre-generated suffix
     char dependency[96];
-    if(randGetDependencies==1){
+    if(randGetDependencies == 1){
         strcpy(dependency,fakePackage);
-        strcat(dependency,dependencySuffix);
+        strcat(dependency,deps[selectedDependency]);
     }
     // Run the fake install
     msleep(500);
