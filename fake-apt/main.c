@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
     #include <winsock.h>
 #else
     #include <unistd.h>
-    #define _countOf(x) (sizeof(x)/sizeof(*(x)))
+    #define _countof(x) (sizeof(x)/sizeof(*(x)))
 #endif
 // Set architecture
 #if defined __aarch64__ || defined _M_ARM64
@@ -62,7 +62,7 @@ int main(int argc,char *argv[]){
     // "Coin flip" to see if we're going to get a dependency or not
     int randGetDependencies = getRand(2);
     char *deps[] = {"-runtime", "-man", "-headers", "-config", "-utils", "-dev", "-data"};
-    int selectedDependency = getRand(_countOf(deps));
+    int selectedDependency = getRand(_countof(deps));
     // Get archive sizes, second will go unused if coin flip is false
     int archiveSize = getRand(84);
     int archiveSize2 = getRand(64);
