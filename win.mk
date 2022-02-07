@@ -1,6 +1,6 @@
 TARGET = fake-apt
 
-WINFLAGS = /c /W3 /O1 /GS- /Fo.\bin\
+WINFLAGS = /c /W3 /O1 /GS- /Fo.\bin\\
 
 WINLIBS = kernel32.lib advapi32.lib ws2_32.lib
 
