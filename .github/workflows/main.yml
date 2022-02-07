@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Linux
-      run: make linux
+      run: make
     - name: Pack Build Files
       run: |
         mkdir ~/fake-apt-linux
