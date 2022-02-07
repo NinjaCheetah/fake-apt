@@ -39,16 +39,10 @@ jobs:
     - name: Build For Windows
       id: build-windows
       run: make -f win.mk
-    - name: Pack Build Files
-      run: |
-        mkdir D:\a\fake-apt\fake-apt-windows
-        mv D:\a\fake-apt\fake-apt\bin\* D:\a\fake-apt\fake-apt-windows
-        cd D:\a\fake-apt
-        tar -cvf fake-apt-windows.tar fake-apt-windows\*
     - name: Publish Build Files
       uses: actions/upload-artifact@v2
       with:
-        path: D:\a\fake-apt\fake-apt-windows.tar
+        path: D:\a\fake-apt\fake-apt\bin\fake-apt.exe
         name: fake-apt-windows
   build-macos:
 
