@@ -38,7 +38,7 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1.10.0
     - name: Build For Windows
       id: build-windows
-      run: make win
+      run: make -f win.mk
     - name: Pack Build Files
       run: |
         mkdir D:\a\fake-apt\fake-apt-windows
