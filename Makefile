@@ -1,27 +1,31 @@
+TARGET_EXEC ?= fake-apt
+
 CC = gcc
-TARGET = fake-apt
-WINFLAGS = /W3 /O1 /GS-
-WINLIBS = kernel32.lib advapi32.lib ws2_32.lib
 CFLAGS = -Wall -O2
 
-all: linux
+BUILD_DIR ?= ./bin
+SRC_DIRS ?= ./src
 
-linux:
-	mkdir -p bin/
-	$(CC) src/main.c $(CFLAGS) -o bin/$(TARGET)
+SRCS := $(shell find $(SRC_DIRS) -name *.c)
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
-macX86:
-	mkdir -p bin/
-	$(CC) src/main.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/$(TARGET)X86
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-macARM:
-	mkdir -p bin/
-	$(CC) src/main.c $(CFLAGS) -target arm64-apple-macos11 -o bin/$(TARGET)ARM
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
-mac: macX86 macARM
-	lipo -create bin/$(TARGET)X86 bin/$(TARGET)ARM -output bin/$(TARGET)-macOS
-	rm bin/$(TARGET)X86
-	rm bin/$(TARGET)ARM
+# c source
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean
 
 clean:
-	rm -rf bin/
+	$(RM) -r $(BUILD_DIR)
+
+-include $(DEPS)
+
+MKDIR_P ?= mkdir -p

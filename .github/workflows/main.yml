@@ -57,7 +57,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build macOS
-      run: make mac
+      run: make -f mac.mk
     - name: Pack Build Files
       run: |
         mkdir ~/fake-apt-macOS
