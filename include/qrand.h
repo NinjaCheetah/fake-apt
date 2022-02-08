@@ -1,4 +1,4 @@
-/*fake-apt "cpuarch.h"
+/*fake-apt "qrand.h"
 Copyright (C) 2021 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,16 +12,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
-#ifndef CPUARCH_DOT_H
-#define CPUARCH_DOT_H
+#ifndef FAKE_APT_QRAND_H
+#define FAKE_APT_QRAND_H
 
-// Declare CPU architecture char
-#if defined __aarch64__ || defined _M_ARM64
-    #define CPU_ARCH "arm64"
-#elif defined i386 || defined __i386__ || defined __i386 || defined _M_IX86
-    #define CPU_ARCH "i386"
-#else
-    #define CPU_ARCH "amd64"
-#endif
+// Quick version of rand that lets you directly specify a max
+#define qrand(x) rand() % x
 
-#endif // CPUARCH_DOT_H
+#endif //FAKE_APT_QRAND_H

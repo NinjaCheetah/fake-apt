@@ -15,21 +15,53 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 #include <string.h>
 // Local headers
+#include "../include/cpuarch.h"
 #include "../include/install.h"
+#include "../include/search.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
 #endif
 // Start code
-int main(int argc,char *argv[]){
+int main(int argc,char *argv[]) {
+    int returnCode = 0;
     // Check args, abort if too few are passed
     if(argc < 2) {
-        printf("Please specify an argument!\n");
+        printf("apt 2.0.6 (%s)\nUsage: apt [options] command\n\n", CPU_ARCH);
+        printf("apt is a commandline package manager and provides commands for\n"
+               "searching and managing as well as querying information about packages.\n"
+               "It provides the same functionality as the specialized APT tools,\n"
+               "like apt-get and apt-cache, but enables options more suitable for\n"
+               "interactive use by default.\n\n");
+        printf("Most used commands:\n"
+               /*"  list - list packages based on package names\n"*/
+               "  search - search in package descriptions\n"
+               /*"  show - show package details\n"*/
+               "  install - install packages\n"
+               /*"  reinstall - reinstall packages\n"*/
+               /*"  remove - remove packages\n"*/
+               /*"  autoremove - Remove automatically all unused packages\n"*/
+               /*"  update - update list of available packages\n"*/
+               /*"  upgrade - upgrade the system by installing/upgrading packages\n"*/
+               /*"  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"*/
+               /*"  edit-sources - edit the source information file\n"*/
+               /*"  satisfy - satisfy dependency strings\n"*/
+               "\n");
+        printf("See apt(8) for more information about the available commands.\n"
+               "Configuration options and syntax is detailed in apt.conf(5).\n"
+               "Information about how to configure sources can be found in sources.list(5).\n"
+               "Package and version choices can be expressed via apt_preferences(5).\n"
+               "Security details are available in apt-secure(8).\n");
+        printf("                                        This APT has Super Cow Powers.\n");
         return(0);
     }
     if(strcmp(argv[1], "install") == 0) {
         // Run install
-        apt_install(argc, argv);
+        returnCode = apt_install(argc, argv);
     }
-    return(0);
+    else if(strcmp(argv[1], "search") == 0) {
+        // Run search
+        returnCode = apt_search(argc, argv);
+    }
+    return(returnCode);
 }

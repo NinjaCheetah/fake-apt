@@ -11,13 +11,15 @@ macX86:
 	mkdir -p bin/./src/
 	$(CC) -c src/main.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/main.c.o
 	$(CC) -c src/install.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/install.c.o
-	$(CC) bin/src/main.c.o bin/src/install.c.o -target x86_64-apple-macos10.12 -o bin/$(TARGET)X86
+	$(CC) -c src/search.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/search.c.o
+	$(CC) bin/src/main.c.o bin/src/install.c.o bin/src/search.c.o -target x86_64-apple-macos10.12 -o bin/$(TARGET)X86
 
 macARM:
 	mkdir -p bin/./src/
 	$(CC) -c src/main.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/main.c.o
 	$(CC) -c src/install.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/install.c.o
-	$(CC) bin/src/main.c.o bin/src/install.c.o -target arm64-apple-macos11 -o bin/$(TARGET)ARM
+	$(CC) -c src/search.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/search.c.o
+	$(CC) bin/src/main.c.o bin/src/install.c.o bin/src/search.c.o -target arm64-apple-macos11 -o bin/$(TARGET)ARM
 
 clean:
 	rm -rf bin/

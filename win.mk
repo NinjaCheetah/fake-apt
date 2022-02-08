@@ -8,7 +8,8 @@ win:
 	mkdir bin
 	cl $(WINFLAGS) src\main.c
 	cl $(WINFLAGS) src\install.c
-	link bin\main.obj bin\install.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
+	cl $(WINFLAGS) src\search.c
+	link bin\main.obj bin\install.obj bin\search.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
 
 clean:
 	rm -rf bin/

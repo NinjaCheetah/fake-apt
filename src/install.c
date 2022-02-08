@@ -17,7 +17,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <time.h>
 #include <string.h>
 // Local headers
+#include "../include/install.h"
 #include "../include/cpuarch.h"
+#include "../include/compatsleep.h"
+#include "../include/qrand.h"
 // Use different headers in Windows
 #ifdef _WIN32
 #include <Windows.h>
@@ -27,41 +30,47 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
     #define _countof(x) (sizeof(x)/sizeof(*(x)))
 #endif
 // Start code
-void msleep(int time){
-#ifdef _WIN32
-    Sleep(time);
-#else
-    usleep(time*1000);
-#endif
-}
-int getRand(int maxNum){
-    // Get the random number, seed is taken from the time
-    return(rand() % maxNum);
-}
-int apt_install(int argc,char *argv[]){
+int apt_install(int argc,char *argv[]) {
+    if(argc < 3) {
+        // Run start of apt install (this is what real apt will do)
+        msleep(500);
+        printf("Reading package lists... ");
+        fflush(stdout);
+        msleep(850);
+        printf("Done\n");
+        printf("Building dependency tree\n");
+        msleep(900);
+        printf("Reading state information... ");
+        fflush(stdout);
+        msleep(900);
+        printf("Done\n");
+        msleep(750);
+        printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
+        return(1);
+    }
     // Get all variables and random numbers set
     // Seed rand()
     srand(time(0));
     // Number of installed directories (I'm honestly not even sure what that means)
-    int installedDirectories = getRand(8000000);
+    int installedDirectories = qrand(8000000);
     // "Coin flip" to see if we're going to get a dependency or not
-    int randGetDependencies = getRand(2);
+    int randGetDependencies = qrand(2);
     char *deps[] = {"-runtime", "-man", "-headers", "-config", "-utils", "-dev", "-data"};
-    int selectedDependency = getRand(_countof(deps));
+    int selectedDependency = qrand(_countof(deps));
     // Get archive sizes, second will go unused if coin flip is false
-    int archiveSize = getRand(84);
-    int archiveSize2 = getRand(64);
+    int archiveSize = qrand(84);
+    int archiveSize2 = qrand(64);
     // Combine sizes if there's going to be a dependency, if there's not then don't
     int totalDownSize;
     if(randGetDependencies == 1) totalDownSize = archiveSize + archiveSize2;
     else totalDownSize = archiveSize;
     // Get total disk space needed
-    int extractSize = getRand(64);
+    int extractSize = qrand(64);
     int diskSpace = totalDownSize + extractSize;
     // Get download time
     int downloadRate[6]={50,100,200,250,300,500};
-    int downloadTime = archiveSize * downloadRate[getRand(6)];
-    int downloadTime2 = archiveSize2 * downloadRate[getRand(6)];
+    int downloadTime = archiveSize * downloadRate[qrand(6)];
+    int downloadTime2 = archiveSize2 * downloadRate[qrand(6)];
     // Combine them for the displayed download time
     int totalDownTime = downloadTime + downloadTime2;
     // Get all the various version numbers
@@ -70,11 +79,11 @@ int apt_install(int argc,char *argv[]){
     int versionsd[4];
     int i;
     for(i=0;i<4;i++){
-        versions[i] = getRand(verMax[i]);
+        versions[i] = qrand(verMax[i]);
     }
     if(randGetDependencies){
         for(i=0;i<4;i++){
-            versionsd[i] = getRand(verMax[i]);
+            versionsd[i] = qrand(verMax[i]);
         }
     }
     char *fakePackage = argv[2];
@@ -108,11 +117,11 @@ int apt_install(int argc,char *argv[]){
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n",totalDownSize);
     msleep(250);
-    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",diskSpace,g_arch,fakePackage,g_arch,versions[0],versions[1],versions[2],versions[3],archiveSize);
+    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",diskSpace,CPU_ARCH,fakePackage,CPU_ARCH,versions[0],versions[1],versions[2],versions[3],archiveSize);
     msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
-        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",g_arch,fakePackage,g_arch,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
+        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
         msleep(downloadTime2);
     }
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime/1000);
@@ -121,7 +130,7 @@ int apt_install(int argc,char *argv[]){
     msleep(850);
     printf("(Reading database ... %d files and directories currently installed.)\n",installedDirectories);
     // Use those nice version numbers
-    printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3],g_arch);
+    printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3],CPU_ARCH);
     msleep(750);
     printf("Unpacking %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     msleep(2000);
@@ -129,7 +138,7 @@ int apt_install(int argc,char *argv[]){
     msleep(2000);
     if(randGetDependencies){
         // Say the same thing for the dependency
-        printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3],g_arch);
+        printf("Preparing to unpack .../%s_%d:%d.%d.%d-%s.deb ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3],CPU_ARCH);
         msleep(750);
         printf("Unpacking %s (%d:%d.%d.%d) ...\n",dependency,versionsd[0],versionsd[1],versionsd[2],versionsd[3]);
         msleep(2000);
