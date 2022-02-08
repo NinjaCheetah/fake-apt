@@ -1,4 +1,4 @@
-/*fake-apt "main.c"
+/*fake-apt "cpuarch.h"
 Copyright (C) 2021 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,24 +12,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
-#include <stdio.h>
-#include <string.h>
-// Local headers
-#include "../include/install.h"
-// Use different headers in Windows
-#ifdef _WIN32
-    #include <Windows.h>
+#ifndef CPUARCH_DOT_H
+#define CPUARCH_DOT_H
+
+// Declare CPU architecture char
+#if defined __aarch64__ || defined _M_ARM64
+char g_arch[]="arm64";
+#elif defined i386 || defined __i386__ || defined __i386 || defined _M_IX86
+char g_arch[]="i386";
+#else
+char g_arch[]="amd64";
 #endif
-// Start code
-int main(int argc,char *argv[]){
-    // Check args, abort if too few are passed
-    if(argc < 2) {
-        printf("Please specify an argument!\n");
-        return(0);
-    }
-    if(strcmp(argv[1], "install") == 0) {
-        // Run install
-        apt_install(argc, argv);
-    }
-    return(0);
-}
+
+#endif // CPUARCH_DOT_H

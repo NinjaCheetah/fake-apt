@@ -5,6 +5,7 @@ CFLAGS = -Wall -O2
 
 BUILD_DIR ?= ./bin
 SRC_DIRS ?= ./src
+INC_DIRS ?= ./include
 
 SRCS := $(shell find $(SRC_DIRS) -name *.c)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
