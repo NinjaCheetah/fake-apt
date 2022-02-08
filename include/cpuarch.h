@@ -20,6 +20,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
     #define CPU_ARCH "arm64"
 #elif defined i386 || defined __i386__ || defined __i386 || defined _M_IX86
     #define CPU_ARCH "i386"
+#elif defined __ARM_ARCH_2__ || defined __ARM_ARCH_3__ || defined __ARM_ARCH_4T__ || defined __ARM_ARCH_5__ || defined __ARM_ARCH_6__ || defined __ARM_ARCH_7__
+    #define CPU_ARCH "armhf"
+#elif defined __powerpc  || defined __powerpc__  || defined __powerpc64__  || defined __POWERPC__  || defined __ppc__  || defined __PPC__  || defined _ARCH_PPC
+    #define CPU_ARCH "ppc"
+#elif defined __PPC64__  || defined __ppc64__  || defined _ARCH_PPC64
+    #define CPU_ARCH "ppc64";
 #else
     #define CPU_ARCH "amd64"
 #endif
