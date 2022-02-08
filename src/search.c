@@ -13,13 +13,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
 // Local headers
 #include "../include/search.h"
 #include "../include/compatsleep.h"
 #include "../include/qrand.h"
+// Use different headers for Windows
+#ifdef _WIN32
+    #include <Windows.h>
+    #include <winsock.h>
+#else
+    #include <unistd.h>
+    #define _countof(x) (sizeof(x)/sizeof(*(x)))
+#endif
 // Start code
 int apt_search(int argc,char *argv[]) {
     if(argc < 3) {
