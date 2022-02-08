@@ -19,15 +19,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Local headers
 #include "../include/install.h"
 #include "../include/cpuarch.h"
-#include "../include/compatsleep.h"
+#include "../include/compat.h"
 #include "../include/qrand.h"
 // Use different headers in Windows
 #ifdef _WIN32
-#include <Windows.h>
+    #include <Windows.h>
     #include <winsock.h>
 #else
     #include <unistd.h>
-    #define _countof(x) (sizeof(x)/sizeof(*(x)))
 #endif
 // Start code
 int apt_install(int argc,char *argv[]) {

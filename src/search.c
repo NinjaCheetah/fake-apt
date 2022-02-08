@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <time.h>
 // Local headers
 #include "../include/search.h"
-#include "../include/compatsleep.h"
+#include "../include/compat.h"
 #include "../include/qrand.h"
 // Use different headers for Windows
 #ifdef _WIN32
@@ -25,7 +25,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
     #include <winsock.h>
 #else
     #include <unistd.h>
-    #define _countof(x) (sizeof(x)/sizeof(*(x)))
 #endif
 // Start code
 int apt_search(int argc,char *argv[]) {

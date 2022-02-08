@@ -13,13 +13,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 
-#ifndef FAKE_APT_COMPATSLEEP_H
-#define FAKE_APT_COMPATSLEEP_H
+#ifndef FAKE_APT_COMPAT_H
+#define FAKE_APT_COMPAT_H
 
 #ifdef _WIN32
     #define msleep(x) Sleep(x)
 #else
     #define msleep(x) usleep(x*1000)
+    #define _countof(x) (sizeof(x)/sizeof(*(x)))
 #endif
 
-#endif //FAKE_APT_COMPATSLEEP_H
+#endif //FAKE_APT_COMPAT_H
