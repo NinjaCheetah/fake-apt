@@ -15,7 +15,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #ifndef CPUARCH_DOT_H
 #define CPUARCH_DOT_H
 
-// Declare CPU architecture char
+// Define the CPU_ARCH macro based on the architecture defined by GCC at compile time
 #if defined __aarch64__ || defined _M_ARM64
     #define CPU_ARCH "arm64"
 #elif defined i386 || defined __i386__ || defined __i386 || defined _M_IX86

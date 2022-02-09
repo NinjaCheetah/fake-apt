@@ -1,6 +1,15 @@
-CC = gcc
 TARGET = fake-apt
+
+CC = gcc
 CFLAGS = -Wall -O2
+
+BUILD_DIR ?= ./bin
+SRC_DIRS ?= ./src
+INC_DIRS ?= ./include
+
+SRCS := $(shell find $(SRC_DIRS) -name *.c)
+
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 mac: macX86 macARM
 	lipo -create bin/$(TARGET)X86 bin/$(TARGET)ARM -output bin/$(TARGET)
@@ -8,18 +17,16 @@ mac: macX86 macARM
 	rm bin/$(TARGET)ARM
 
 macX86:
-	mkdir -p bin/./src/
-	$(CC) -c src/main.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/main.c.o
-	$(CC) -c src/install.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/install.c.o
-	$(CC) -c src/search.c $(CFLAGS) -target x86_64-apple-macos10.12 -o bin/src/search.c.o
-	$(CC) bin/src/main.c.o bin/src/install.c.o bin/src/search.c.o -target x86_64-apple-macos10.12 -o bin/$(TARGET)X86
+	$(MKDIR_P) bin/./src/
+	$(CC) $(SRCS) $(CFLAGS) -target x86_64-apple-macos10.12 -o $(BUILD_DIR)/$(TARGET)X86 $(LDFLAGS)
 
 macARM:
-	mkdir -p bin/./src/
-	$(CC) -c src/main.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/main.c.o
-	$(CC) -c src/install.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/install.c.o
-	$(CC) -c src/search.c $(CFLAGS) -target arm64-apple-macos11 -o bin/src/search.c.o
-	$(CC) bin/src/main.c.o bin/src/install.c.o bin/src/search.c.o -target arm64-apple-macos11 -o bin/$(TARGET)ARM
+	$(MKDIR_P) bin/./src/
+	$(CC) $(SRCS) $(CFLAGS) -target arm64-apple-macos11 -o $(BUILD_DIR)/$(TARGET)ARM $(LDFLAGS)
+
+.PHONY: clean
 
 clean:
 	rm -rf bin/
+
+MKDIR_P ?= mkdir -p

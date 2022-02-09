@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/cpuarch.h"
 #include "../include/install.h"
 #include "../include/search.h"
+#include "../include/update.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -41,7 +42,7 @@ int main(int argc,char *argv[]) {
                /*"  reinstall - reinstall packages\n"*/
                /*"  remove - remove packages\n"*/
                /*"  autoremove - Remove automatically all unused packages\n"*/
-               /*"  update - update list of available packages\n"*/
+               "  update - update list of available packages\n"
                /*"  upgrade - upgrade the system by installing/upgrading packages\n"*/
                /*"  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"*/
                /*"  edit-sources - edit the source information file\n"*/
@@ -62,6 +63,10 @@ int main(int argc,char *argv[]) {
     else if(strcmp(argv[1], "search") == 0) {
         // Run search
         returnCode = apt_search(argc, argv);
+    }
+    else if(strcmp(argv[1], "update") == 0) {
+        // Run update
+        returnCode = apt_update();
     }
     return(returnCode);
 }
