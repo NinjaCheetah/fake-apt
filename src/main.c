@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/install.h"
 #include "../include/search.h"
 #include "../include/update.h"
+#include "../include/upgrade.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -43,7 +44,7 @@ int main(int argc,char *argv[]) {
                /*"  remove - remove packages\n"*/
                /*"  autoremove - Remove automatically all unused packages\n"*/
                "  update - update list of available packages\n"
-               /*"  upgrade - upgrade the system by installing/upgrading packages\n"*/
+               "  upgrade - upgrade the system by installing/upgrading packages\n"
                /*"  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"*/
                /*"  edit-sources - edit the source information file\n"*/
                /*"  satisfy - satisfy dependency strings\n"*/
@@ -56,17 +57,21 @@ int main(int argc,char *argv[]) {
         printf("                                        This APT has Super Cow Powers.\n");
         return(0);
     }
-    if(strcmp(argv[1], "install") == 0) {
-        // Run install
-        returnCode = apt_install(argc, argv);
-    }
-    else if(strcmp(argv[1], "search") == 0) {
+    if(strcmp(argv[1], "search") == 0) {
         // Run search
         returnCode = apt_search(argc, argv);
+    }
+    else if(strcmp(argv[1], "install") == 0) {
+        // Run install
+        returnCode = apt_install(argc, argv);
     }
     else if(strcmp(argv[1], "update") == 0) {
         // Run update
         returnCode = apt_update();
+    }
+    else if(strcmp(argv[1], "upgrade") == 0) {
+        // Run upgrade
+        returnCode = apt_upgrade();
     }
     return(returnCode);
 }
