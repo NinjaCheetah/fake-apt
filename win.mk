@@ -4,7 +4,7 @@ WINFLAGS = /c /W3 /O1 /GS- /Fo.\bin\\
 
 WINLIBS = kernel32.lib advapi32.lib ws2_32.lib
 
-SRCS := $(shell Get-ChildItem "c:\\temp\\" -recurse -file -filter "*.c" %{$fullname=$_.fullname; (Get-Content $_.fullname).Replace("oldstring", "newstring") | Set-Content $fullname})
+SRCS := $(shell Get-ChildItem -Filter *.c -Recurse )
 
 win:
 	mkdir bin
