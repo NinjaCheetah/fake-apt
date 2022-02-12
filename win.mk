@@ -10,13 +10,13 @@ SRCS := $(shell find $(SRC_DIRS) -name *.c)
 
 win:
 	mkdir bin
-#cl $(WINFLAGS) src\main.c
+	cl $(WINFLAGS) src\*.c
 #cl $(WINFLAGS) src\install.c
 #cl $(WINFLAGS) src\search.c
 #cl $(WINFLAGS) src\update.c
 #cl $(WINFLAGS) src\upgrade.c
-#link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
-	cl $(WINFLAGS) $(SRCS) /link $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /out:bin\$(TARGET).exe
+	link bin\* $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
+#cl $(WINFLAGS) $(SRCS) /link $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
 
 
 clean:
