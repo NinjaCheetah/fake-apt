@@ -4,10 +4,6 @@ WINFLAGS = /c /W3 /O1 /GS- /Fo.\bin\\
 
 WINLIBS = kernel32.lib advapi32.lib ws2_32.lib
 
-SRC_DIRS ?= ./src
-
-SRCS := $(shell find $(SRC_DIRS) -name *.c)
-
 win:
 	mkdir bin
 	cl $(WINFLAGS) src\main.c
@@ -15,7 +11,8 @@ win:
 	cl $(WINFLAGS) src\search.c
 	cl $(WINFLAGS) src\update.c
 	cl $(WINFLAGS) src\upgrade.c
-	link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
+	cl $(WINFLAGS) src\reinstall.c
+	link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj bin\reinstall.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
 
 clean:
 	rm -rf bin/

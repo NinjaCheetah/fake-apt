@@ -1,4 +1,4 @@
-/*fake-apt "upgrade.h"
+/*fake-apt "reinstall.h"
 Copyright (C) 2021 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,11 +12,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
-#ifndef FAKE_APT_UPGRADE_H
-#define FAKE_APT_UPGRADE_H
+#ifndef FAKE_APT_REINSTALL_H
+#define FAKE_APT_REINSTALL_H
 
 // Declare install functions
-int apt_upgrade();
-int apt_fullupgrade();
+int apt_reinstall(int argc,char *argv[]);
 
-#endif //FAKE_APT_UPGRADE_H
+#endif //FAKE_APT_REINSTALL_H

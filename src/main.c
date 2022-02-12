@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Local headers
 #include "../include/cpuarch.h"
 #include "../include/src/install.h"
+#include "../include/src/reinstall.h"
 #include "../include/src/search.h"
 #include "../include/src/update.h"
 #include "../include/src/upgrade.h"
@@ -40,12 +41,12 @@ int main(int argc,char *argv[]) {
                "  search - search in package descriptions\n"
                /*"  show - show package details\n"*/
                "  install - install packages\n"
-               /*"  reinstall - reinstall packages\n"*/
+               "  reinstall - reinstall packages\n"
                /*"  remove - remove packages\n"*/
                /*"  autoremove - Remove automatically all unused packages\n"*/
                "  update - update list of available packages\n"
                "  upgrade - upgrade the system by installing/upgrading packages\n"
-               /*"  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"*/
+               "  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"
                /*"  edit-sources - edit the source information file\n"*/
                /*"  satisfy - satisfy dependency strings\n"*/
                "\n");
@@ -65,6 +66,10 @@ int main(int argc,char *argv[]) {
         // Run install
         returnCode = apt_install(argc, argv);
     }
+    else if(strcmp(argv[1], "reinstall") == 0) {
+        // Run reinstall
+        returnCode = apt_reinstall(argc, argv);
+    }
     else if(strcmp(argv[1], "update") == 0) {
         // Run update
         returnCode = apt_update();
@@ -72,6 +77,10 @@ int main(int argc,char *argv[]) {
     else if(strcmp(argv[1], "upgrade") == 0) {
         // Run upgrade
         returnCode = apt_upgrade();
+    }
+    else if(strcmp(argv[1], "full-upgrade") == 0) {
+        // Run full-upgrade
+        returnCode = apt_fullupgrade();
     }
     return(returnCode);
 }
