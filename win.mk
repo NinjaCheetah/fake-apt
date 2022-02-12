@@ -10,7 +10,7 @@ SRCS := $(shell find $(SRC_DIRS) -name *.c)
 
 win:
 	mkdir bin
-	cl $(WINFLAGS) src\*.c
+	cl $(WINFLAGS) src\\*.c
 #cl $(WINFLAGS) src\install.c
 #cl $(WINFLAGS) src\search.c
 #cl $(WINFLAGS) src\update.c
