@@ -16,10 +16,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/cpuarch.h"
-#include "../include/install.h"
-#include "../include/search.h"
-#include "../include/update.h"
-#include "../include/upgrade.h"
+#include "../include/src/install.h"
+#include "../include/src/search.h"
+#include "../include/src/update.h"
+#include "../include/src/upgrade.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>

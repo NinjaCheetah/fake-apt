@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <time.h>
 #include <string.h>
 // Local headers
-#include "../include/install.h"
+#include "../include/src/install.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"

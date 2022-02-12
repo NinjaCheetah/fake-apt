@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
-#include "../include/upgrade.h"
+#include "../include/src/upgrade.h"
 #include "../include/compat.h"
 // Use different headers in Windows
 #ifdef _WIN32

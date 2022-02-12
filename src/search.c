@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdlib.h>
 #include <time.h>
 // Local headers
-#include "../include/search.h"
+#include "../include/src/search.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
 // Use different headers for Windows

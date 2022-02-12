@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
-#include "../include/update.h"
+#include "../include/src/update.h"
 #include "../include/compat.h"
 #include "../include/cpuarch.h"
 // Use different headers for Windows
