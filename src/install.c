@@ -116,7 +116,16 @@ int apt_install(int argc,char *argv[]) {
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n",totalDownSize);
     msleep(250);
-    printf("After this operation, %d mB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",diskSpace,CPU_ARCH,fakePackage,CPU_ARCH,versions[0],versions[1],versions[2],versions[3],archiveSize);
+    printf("After this operation, %d mB of additional disk space will be used.\n",diskSpace);
+    msleep(850);
+    printf("Do you want to continue? [Y/n] ");
+    int chkAbort = getchar();
+    if(chkAbort == 78 || chkAbort == 110) {
+        printf("Abort.\n");
+        return(1);
+    }
+    msleep(500);
+    printf("Get:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n", CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
     msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){

@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/src/search.h"
 #include "../include/src/update.h"
 #include "../include/src/upgrade.h"
+#include "../include/src/remove.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -42,8 +43,8 @@ int main(int argc,char *argv[]) {
                /*"  show - show package details\n"*/
                "  install - install packages\n"
                "  reinstall - reinstall packages\n"
-               /*"  remove - remove packages\n"*/
-               /*"  autoremove - Remove automatically all unused packages\n"*/
+               "  remove - remove packages\n"
+               "  autoremove - Remove automatically all unused packages\n"
                "  update - update list of available packages\n"
                "  upgrade - upgrade the system by installing/upgrading packages\n"
                "  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"
@@ -69,6 +70,14 @@ int main(int argc,char *argv[]) {
     else if(strcmp(argv[1], "reinstall") == 0) {
         // Run reinstall
         returnCode = apt_reinstall(argc, argv);
+    }
+    else if(strcmp(argv[1], "remove") == 0) {
+        // Run remove
+        returnCode = apt_remove(argc, argv);
+    }
+    else if(strcmp(argv[1], "autoremove") == 0) {
+        // Run autoremove
+        returnCode = apt_autoremove();
     }
     else if(strcmp(argv[1], "update") == 0) {
         // Run update
