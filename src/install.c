@@ -1,5 +1,5 @@
 /*fake-apt "install.c"
-Copyright (C) 2021 NinjaCheetah
+Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/src/install.h"
+#include "../include/version.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
@@ -125,11 +126,11 @@ int apt_install(int argc,char *argv[]) {
         return(1);
     }
     msleep(500);
-    printf("Get:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n", CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
+    printf("Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n", CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
     msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
-        printf("Get:2 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
+        printf("Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
         msleep(downloadTime2);
     }
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime/1000);
@@ -154,7 +155,7 @@ int apt_install(int argc,char *argv[]) {
         msleep(2000);
     }
     // In theory, I will update this number if I notice that man-db has had an update
-    printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
+    printf("Processing triggers for man-db (%s) ...\n\n", MAN_DB_VERSION);
     msleep(2000);
     return(0);
 }

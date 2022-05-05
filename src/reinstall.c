@@ -1,5 +1,5 @@
 /*fake-apt "reinstall.c"
-Copyright (C) 2021 NinjaCheetah
+Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/src/reinstall.h"
+#include "../include/version.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
@@ -54,8 +55,6 @@ int apt_reinstall(int argc, char *argv[]) {
     int installedDirectories = qrand(8000000);
     // Get archive sizes, second will go unused if coin flip is false
     int archiveSize = qrand(84);
-    // Get total disk space needed
-    int extractSize = qrand(64);
     // Get download time
     int downloadRate[6]={50,100,200,250,300,500};
     int downloadTime = archiveSize * downloadRate[qrand(6)];
@@ -87,7 +86,7 @@ int apt_reinstall(int argc, char *argv[]) {
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n", archiveSize);
     msleep(250);
-    printf("After this operation, 0 B of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu focal-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versions[0],versions[1],versions[2],versions[3],archiveSize);
+    printf("After this operation, 0 B of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versions[0],versions[1],versions[2],versions[3],archiveSize);
     msleep(downloadTime);
     printf("Fetched %d mB in %ds\n", archiveSize, downloadTime / 1000);
     msleep(850);
@@ -102,7 +101,7 @@ int apt_reinstall(int argc, char *argv[]) {
     printf("Setting up %s (%d:%d.%d.%d) ...\n",fakePackage,versions[0],versions[1],versions[2],versions[3]);
     msleep(2000);
     // In theory, I will update this number if I notice that man-db has had an update
-    printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
+    printf("Processing triggers for man-db (%s) ...\n\n", MAN_DB_VERSION);
     msleep(2000);
     return(0);
 }

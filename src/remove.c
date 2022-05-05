@@ -1,5 +1,5 @@
 /*fake-apt "remove.c"
-Copyright (C) 2021 NinjaCheetah
+Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/src/remove.h"
+#include "../include/version.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
 // Use different headers in Windows
@@ -102,7 +103,7 @@ int apt_remove(int argc, char *argv[]) {
     printf("Removing %s (%d:%d.%d.%d) ...\n", fakePackage, versions[0], versions[1], versions[2], versions[3]);
     msleep(2000);
     // In theory, I will update this number if I notice that man-db has had an update
-    printf("Processing triggers for man-db (2.9.1-1) ...\n\n");
+    printf("Processing triggers for man-db (%s) ...\n\n", MAN_DB_VERSION);
     msleep(2000);
     return (0);
 }

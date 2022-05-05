@@ -1,4 +1,4 @@
-/*fake-apt "qrand.h"
+/*fake-apt "version.h"
 Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,10 +12,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
-#ifndef FAKE_APT_QRAND_H
-#define FAKE_APT_QRAND_H
+#ifndef FAKE_APT_VERSION_H
+#define FAKE_APT_VERSION_H
 
-// Quick version of rand that lets you directly specify a max
-#define qrand(x) rand() % x
+// Define the APT version macro. This is used to make updating that number easy.
+#define APT_VERSION "2.4.5"
+#define MAN_DB_VERSION "2.10.2-1"
 
-#endif //FAKE_APT_QRAND_H
+#endif //FAKE_APT_VERSION_H

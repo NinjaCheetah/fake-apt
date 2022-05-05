@@ -1,4 +1,4 @@
-/*fake-apt "search.c"
+/*fake-apt "list.c"
 Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,33 +16,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdlib.h>
 #include <time.h>
 // Local headers
-#include "../include/src/search.h"
+#include "../include/src/list.h"
+#include "../include/cpuarch.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
-// Use different headers for Windows
+#include "../include/version.h"
+// Use different headers in Windows
 #ifdef _WIN32
-    #include <Windows.h>
+#include <Windows.h>
     #include <winsock.h>
 #else
-    #include <unistd.h>
+#include <unistd.h>
 #endif
 // Start code
-int apt_search(int argc,char *argv[]) {
+int apt_list(int argc,char *argv[]) {
     if(argc < 3) {
-        printf("\e[0;91mE: \e[0mYou must give at least one search pattern\n");
-        return(-1);
+        // List all installed packages, which in this case will always just be apt
+        printf("Listing... ");
+        fflush(stdout);
+        msleep(1500);
+        printf("Done\n");
+        fflush(stdout);
+        msleep(500);
+        printf("\e[0;32mapt\e[0m/stable,now %s %s [installed]\n", APT_VERSION, CPU_ARCH);
+        return(1);
     }
-    // Perform a fake search for the package name provided
+    // List the provided package as installed with a random version and the current CPU architecture
+    printf("Listing... ");
+    fflush(stdout);
+    msleep(1500);
+    printf("Done\n");
+    fflush(stdout);
     msleep(500);
-    printf("Sorting... ");
-    fflush(stdout);
-    msleep(1000);
-    printf("Done\n");
-    printf("Full Text Search... ");
-    fflush(stdout);
-    msleep(1000);
-    printf("Done\n");
-    fflush(stdout);
     srand(time(0));
     int verMax[4]={25,50,9,9};
     int versions[4];
@@ -50,6 +55,6 @@ int apt_search(int argc,char *argv[]) {
     for(i=0;i<4;i++){
         versions[i] = qrand(verMax[i]);
     }
-    printf("\e[0;32m%s\e[0m/jammy %d:%d.%d.%d all\n\n", argv[2], versions[0], versions[1], versions[2], versions[3]);
+    printf("\e[0;32m%s\e[0m/stable,now %d:%d.%d.%d %s [installed]\n", argv[2], versions[0], versions[1], versions[2], versions[3], CPU_ARCH);
     return(0);
 }
