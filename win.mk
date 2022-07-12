@@ -14,7 +14,9 @@ win:
 	cl $(WINFLAGS) src\reinstall.c
 	cl $(WINFLAGS) src\remove.c
 	cl $(WINFLAGS) src\list.c
-	link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj bin\reinstall.obj bin\remove.obj bin\list.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
+	cl $(WINFLAGS) src\show.c
+	cl $(WINFlAGS) src\satisfy.c
+	link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj bin\reinstall.obj bin\remove.obj bin\list.obj bin\show.obj bin\satisfy.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
 
 clean:
 	rm -rf bin/
