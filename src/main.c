@@ -24,6 +24,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/src/upgrade.h"
 #include "../include/src/remove.h"
 #include "../include/src/list.h"
+#include "../include/src/show.h"
+#include "../include/src/satisfy.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -50,6 +52,10 @@ int main(int argc,char *argv[]) {
     else if(strcmp(argv[1], "search") == 0) {
         // Run search
         returnCode = apt_search(argc, argv);
+    }
+    else if(strcmp(argv[1], "show") == 0) {
+        // Run show
+        returnCode = apt_show(argc, argv);
     }
     else if(strcmp(argv[1], "install") == 0) {
         // Run install
@@ -78,6 +84,10 @@ int main(int argc,char *argv[]) {
     else if(strcmp(argv[1], "full-upgrade") == 0) {
         // Run full-upgrade
         returnCode = apt_fullupgrade();
+    }
+    else if(strcmp(argv[1], "satisfy") == 0) {
+        // Run satisfy
+        returnCode = apt_satisfy(argc);
     }
     else {
         // Go through all possible scenarios and print the corresponding error
@@ -113,7 +123,7 @@ int apt_usage() {
     printf("Most used commands:\n"
            "  list - list packages based on package names\n"
            "  search - search in package descriptions\n"
-           /*"  show - show package details\n"*/
+           "  show - show package details\n"
            "  install - install packages\n"
            "  reinstall - reinstall packages\n"
            "  remove - remove packages\n"
@@ -122,7 +132,7 @@ int apt_usage() {
            "  upgrade - upgrade the system by installing/upgrading packages\n"
            "  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"
            /*"  edit-sources - edit the source information file\n"*/
-           /*"  satisfy - satisfy dependency strings\n"*/
+           "  satisfy - satisfy dependency strings\n"
            "\n");
     printf("See apt(8) for more information about the available commands.\n"
            "Configuration options and syntax is detailed in apt.conf(5).\n"

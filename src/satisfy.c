@@ -1,4 +1,4 @@
-/*fake-apt "upgrade.c"
+/*fake-apt "satisfy.c"
 Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
-#include "../include/src/upgrade.h"
+#include "../include/src/satisfy.h"
 #include "../include/compat.h"
 // Use different headers in Windows
 #ifdef _WIN32
@@ -24,12 +24,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <unistd.h>
 #endif
 // Start code
-int apt_upgrade() {
-    // Run apt upgrade, always says no upgrades needed
+int apt_satisfy(int argc) {
+    if(argc < 3) {
+        msleep(750);
+        printf("\e[0;91mE: \e[0mMust specify at least one package to check builddeps for\n");
+        return(-1);
+    }
+    // Just say that package doesn't need to be satisfied
     msleep(500);
     printf("Reading package lists... ");
     fflush(stdout);
-    msleep(1000);
+    msleep(850);
     printf("Done\n");
     printf("Building dependency tree... ");
     fflush(stdout);
@@ -39,36 +44,7 @@ int apt_upgrade() {
     fflush(stdout);
     msleep(900);
     printf("Done\n");
-    printf("Calculating upgrade... ");
-    fflush(stdout);
-    msleep(2000);
-    printf("Done\n");
-    fflush(stdout);
-    msleep(500);
-    printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
-    return(0);
-}
-int apt_fullupgrade() {
-    // Run apt full-upgrade, always says no upgrades needed
-    msleep(500);
-    printf("Reading package lists... ");
-    fflush(stdout);
-    msleep(1000);
-    printf("Done\n");
-    printf("Building dependency tree... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
-    printf("Reading state information... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
-    printf("Calculating upgrade... ");
-    fflush(stdout);
-    msleep(2000);
-    printf("Done\n");
-    fflush(stdout);
-    msleep(500);
+    msleep(750);
     printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
     return(0);
 }

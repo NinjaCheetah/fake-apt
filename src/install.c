@@ -38,8 +38,10 @@ int apt_install(int argc,char *argv[]) {
         fflush(stdout);
         msleep(850);
         printf("Done\n");
-        printf("Building dependency tree\n");
+        printf("Building dependency tree... ");
+        fflush(stdout);
         msleep(900);
+        printf("Done\n");
         printf("Reading state information... ");
         fflush(stdout);
         msleep(900);
@@ -101,8 +103,10 @@ int apt_install(int argc,char *argv[]) {
     fflush(stdout);
     msleep(850);
     printf("Done\n");
-    printf("Building dependency tree\n");
+    printf("Building dependency tree... ");
+    fflush(stdout);
     msleep(900);
+    printf("Done\n");
     printf("Reading state information... ");
     fflush(stdout);
     msleep(900);
