@@ -15,7 +15,7 @@ win:
 	cl $(WINFLAGS) src\remove.c
 	cl $(WINFLAGS) src\list.c
 	cl $(WINFLAGS) src\show.c
-	cl $(WINFlAGS) src\satisfy.c
+	cl $(WINFLAGS) src\satisfy.c
 	link bin\main.obj bin\install.obj bin\search.obj bin\update.obj bin\upgrade.obj bin\reinstall.obj bin\remove.obj bin\list.obj bin\show.obj bin\satisfy.obj $(WINLIBS) /RELEASE /EMITPOGOPHASEINFO /MANIFEST:NO /DEBUG:NONE /SUBSYSTEM:CONSOLE /SAFESEH:NO /OUT:bin\$(TARGET).exe
 
 clean:
