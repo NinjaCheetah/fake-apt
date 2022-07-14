@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/src/reinstall.h"
+#include "../include/src/base.h"
 #include "../include/version.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
@@ -33,19 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 int apt_reinstall(int argc, char *argv[]) {
     if(argc < 3) {
         // Run start of apt install (this is what real apt will do)
-        msleep(500);
-        printf("Reading package lists... ");
-        fflush(stdout);
-        msleep(850);
-        printf("Done\n");
-        printf("Building dependency tree... ");
-        fflush(stdout);
-        msleep(900);
-        printf("Done\n");
-        printf("Reading state information... ");
-        fflush(stdout);
-        msleep(900);
-        printf("Done\n");
+        apt_init();
         msleep(750);
         printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
         return(1);
@@ -71,17 +60,7 @@ int apt_reinstall(int argc, char *argv[]) {
     // Remove newline character, if it exists
     strtok(fakePackage,"\n");
     // Run the fake install
-    msleep(500);
-    printf("Reading package lists... ");
-    fflush(stdout);
-    msleep(850);
-    printf("Done\n");
-    printf("Building dependency tree\n");
-    msleep(900);
-    printf("Reading state information... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
+    apt_init();
     // If there's a dependency say 2 new packages, if not say 1
     printf("0 upgraded, 0 newly installed, 1 reinstalled, 0 to remove and 0 not upgraded.\n");
     msleep(750);

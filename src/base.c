@@ -1,4 +1,4 @@
-/*fake-apt "upgrade.c"
+/*fake-apt "base.c"
 Copyright (C) 2022 NinjaCheetah
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
-#include "../include/src/upgrade.h"
 #include "../include/src/base.h"
 #include "../include/compat.h"
 // Use different headers in Windows
@@ -24,28 +23,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #else
 #include <unistd.h>
 #endif
-// Start code
-int apt_upgrade() {
-    // Run apt upgrade, always says no upgrades needed
-    apt_init();
-    printf("Calculating upgrade... ");
-    fflush(stdout);
-    msleep(2000);
-    printf("Done\n");
-    fflush(stdout);
+int apt_init() {
     msleep(500);
-    printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
-    return(0);
-}
-int apt_fullupgrade() {
-    // Run apt full-upgrade, always says no upgrades needed
-    apt_init();
-    printf("Calculating upgrade... ");
+    printf("Reading package lists... ");
     fflush(stdout);
-    msleep(2000);
+    msleep(850);
     printf("Done\n");
+    printf("Building dependency tree... ");
     fflush(stdout);
-    msleep(500);
-    printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
+    msleep(900);
+    printf("Done\n");
+    printf("Reading state information... ");
+    fflush(stdout);
+    msleep(900);
+    printf("Done\n");
     return(0);
 }

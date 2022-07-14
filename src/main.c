@@ -26,6 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/src/list.h"
 #include "../include/src/show.h"
 #include "../include/src/satisfy.h"
+#include "../include/src/editsources.h"
 // Use different headers in Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -85,6 +86,10 @@ int main(int argc,char *argv[]) {
         // Run full-upgrade
         returnCode = apt_fullupgrade();
     }
+    else if(strcmp(argv[1], "edit-sources") == 0) {
+        // Run edit-sources
+        returnCode = apt_edit_sources();
+    }
     else if(strcmp(argv[1], "satisfy") == 0) {
         // Run satisfy
         returnCode = apt_satisfy(argc);
@@ -131,7 +136,7 @@ int apt_usage() {
            "  update - update list of available packages\n"
            "  upgrade - upgrade the system by installing/upgrading packages\n"
            "  full-upgrade - upgrade the system by removing/installing/upgrading packages\n"
-           /*"  edit-sources - edit the source information file\n"*/
+           "  edit-sources - edit the source information file\n"
            "  satisfy - satisfy dependency strings\n"
            "\n");
     printf("See apt(8) for more information about the available commands.\n"

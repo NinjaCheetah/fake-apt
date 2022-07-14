@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <string.h>
 // Local headers
 #include "../include/src/install.h"
+#include "../include/src/base.h"
 #include "../include/version.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
@@ -33,19 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 int apt_install(int argc,char *argv[]) {
     if(argc < 3) {
         // Run start of apt install (this is what real apt will do)
-        msleep(500);
-        printf("Reading package lists... ");
-        fflush(stdout);
-        msleep(850);
-        printf("Done\n");
-        printf("Building dependency tree... ");
-        fflush(stdout);
-        msleep(900);
-        printf("Done\n");
-        printf("Reading state information... ");
-        fflush(stdout);
-        msleep(900);
-        printf("Done\n");
+        apt_init();
         msleep(750);
         printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
         return(1);
@@ -98,19 +87,7 @@ int apt_install(int argc,char *argv[]) {
         strcat(dependency,deps[selectedDependency]);
     }
     // Run the fake install
-    msleep(500);
-    printf("Reading package lists... ");
-    fflush(stdout);
-    msleep(850);
-    printf("Done\n");
-    printf("Building dependency tree... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
-    printf("Reading state information... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
+    apt_init();
     // List packages, no need to check if there's a dependency because you won't notice anything if there isn't
     printf("The following NEW packages will be installed:\n");
     printf("  %s  %s\n",fakePackage,dependency);

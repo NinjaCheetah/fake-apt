@@ -15,6 +15,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
 #include "../include/src/satisfy.h"
+#include "../include/src/base.h"
 #include "../include/compat.h"
 // Use different headers in Windows
 #ifdef _WIN32
@@ -31,19 +32,7 @@ int apt_satisfy(int argc) {
         return(-1);
     }
     // Just say that package doesn't need to be satisfied
-    msleep(500);
-    printf("Reading package lists... ");
-    fflush(stdout);
-    msleep(850);
-    printf("Done\n");
-    printf("Building dependency tree... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
-    printf("Reading state information... ");
-    fflush(stdout);
-    msleep(900);
-    printf("Done\n");
+    apt_init();
     msleep(750);
     printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
     return(0);
