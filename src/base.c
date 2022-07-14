@@ -13,9 +13,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
+#include <stdlib.h>
 // Local headers
 #include "../include/src/base.h"
 #include "../include/compat.h"
+#include "../include/qrand.h"
 // Use different headers in Windows
 #ifdef _WIN32
 #include <Windows.h>
@@ -37,5 +39,13 @@ int apt_init() {
     fflush(stdout);
     msleep(900);
     printf("Done\n");
+    return(0);
+}
+int apt_create_version(int versions[]) {
+    int verMax[4]={25,50,9,9};
+    int i;
+    for(i=0;i<4;i++) {
+        versions[i] = qrand(verMax[i]);
+    }
     return(0);
 }

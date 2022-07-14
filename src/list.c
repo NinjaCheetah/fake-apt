@@ -13,13 +13,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 // Local headers
 #include "../include/src/list.h"
+#include "../include/src/base.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
-#include "../include/qrand.h"
 #include "../include/version.h"
 // Use different headers in Windows
 #ifdef _WIN32
@@ -48,13 +46,8 @@ int apt_list(int argc,char *argv[]) {
     printf("Done\n");
     fflush(stdout);
     msleep(500);
-    srand(time(0));
-    int verMax[4]={25,50,9,9};
     int versions[4];
-    int i;
-    for(i=0;i<4;i++){
-        versions[i] = qrand(verMax[i]);
-    }
+    apt_create_version(versions);
     printf("\e[0;32m%s\e[0m/stable,now %d:%d.%d.%d %s [installed]\n", argv[2], versions[0], versions[1], versions[2], versions[3], CPU_ARCH);
     return(0);
 }

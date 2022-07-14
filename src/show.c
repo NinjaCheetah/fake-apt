@@ -14,9 +14,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 // Local headers
 #include "../include/src/show.h"
+#include "../include/src/base.h"
 #include "../include/cpuarch.h"
 #include "../include/compat.h"
 #include "../include/qrand.h"
@@ -46,13 +46,9 @@ int apt_show(int argc,char *argv[]) {
     }
     // Provide information about the specified package
     msleep(1000);
-    srand(time(0));
-    int verMax[4]={25,50,9,9};
-    int versions[4];
     int i;
-    for(i=0;i<4;i++){
-        versions[i] = qrand(verMax[i]);
-    }
+    int versions[4];
+    apt_create_version(versions);
     int downloadSize = qrand(64);
     int installedSize = qrand(64) + downloadSize;
     printf("Package: %s\n", argv[2]);

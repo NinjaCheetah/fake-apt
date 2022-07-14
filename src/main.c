@@ -13,7 +13,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 // Local headers
 #include "../include/cpuarch.h"
 #include "../include/version.h"
@@ -42,6 +44,8 @@ int main(int argc,char *argv[]) {
         apt_usage();
         return(0);
     }
+    // Don't bother seeding rand if it won't be used!
+    srand(time(0));
     if(strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0) {
         // Show usage
         returnCode = apt_usage();

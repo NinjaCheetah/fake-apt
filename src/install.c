@@ -14,7 +14,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <string.h>
 // Local headers
 #include "../include/src/install.h"
@@ -40,8 +39,6 @@ int apt_install(int argc,char *argv[]) {
         return(1);
     }
     // Get all variables and random numbers set
-    // Seed rand()
-    srand(time(0));
     // Number of installed directories (I'm honestly not even sure what that means)
     int installedDirectories = qrand(8000000);
     // "Coin flip" to see if we're going to get a dependency or not
@@ -59,23 +56,17 @@ int apt_install(int argc,char *argv[]) {
     int extractSize = qrand(64);
     int diskSpace = totalDownSize + extractSize;
     // Get download time
-    int downloadRate[6]={50,100,200,250,300,500};
+    int downloadRate[6] = {50,100,200,250,300,500};
     int downloadTime = archiveSize * downloadRate[qrand(6)];
     int downloadTime2 = archiveSize2 * downloadRate[qrand(6)];
     // Combine them for the displayed download time
     int totalDownTime = downloadTime + downloadTime2;
     // Get all the various version numbers
-    int verMax[4]={25,50,9,9};
     int versions[4];
     int versionsd[4];
-    int i;
-    for(i=0;i<4;i++){
-        versions[i] = qrand(verMax[i]);
-    }
-    if(randGetDependencies){
-        for(i=0;i<4;i++){
-            versionsd[i] = qrand(verMax[i]);
-        }
+    apt_create_version(versions);
+    if(randGetDependencies) {
+        apt_create_version(versionsd);
     }
     char *fakePackage = argv[2];
     // Remove newline character, if it exists

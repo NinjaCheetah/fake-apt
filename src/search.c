@@ -13,12 +13,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 // Local headers
 #include "../include/src/search.h"
+#include "../include/src/base.h"
 #include "../include/compat.h"
-#include "../include/qrand.h"
 // Use different headers for Windows
 #ifdef _WIN32
     #include <Windows.h>
@@ -43,13 +41,8 @@ int apt_search(int argc,char *argv[]) {
     msleep(1000);
     printf("Done\n");
     fflush(stdout);
-    srand(time(0));
-    int verMax[4]={25,50,9,9};
     int versions[4];
-    int i;
-    for(i=0;i<4;i++){
-        versions[i] = qrand(verMax[i]);
-    }
+    apt_create_version(versions);
     printf("\e[0;32m%s\e[0m/jammy %d:%d.%d.%d all\n\n", argv[2], versions[0], versions[1], versions[2], versions[3]);
     return(0);
 }
