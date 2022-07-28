@@ -37,15 +37,3 @@ int apt_upgrade() {
     printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
     return(0);
 }
-int apt_fullupgrade() {
-    // Run apt full-upgrade, always says no upgrades needed
-    apt_init();
-    printf("Calculating upgrade... ");
-    fflush(stdout);
-    msleep(2000);
-    printf("Done\n");
-    fflush(stdout);
-    msleep(500);
-    printf("0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n");
-    return(0);
-}

@@ -17,6 +17,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 
 // Declare install functions
 int apt_upgrade();
-int apt_fullupgrade();
 
 #endif //FAKE_APT_UPGRADE_H

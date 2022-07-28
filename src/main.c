@@ -88,7 +88,7 @@ int main(int argc,char *argv[]) {
     }
     else if(strcmp(argv[1], "full-upgrade") == 0) {
         // Run full-upgrade
-        returnCode = apt_fullupgrade();
+        returnCode = apt_upgrade();
     }
     else if(strcmp(argv[1], "edit-sources") == 0) {
         // Run edit-sources
