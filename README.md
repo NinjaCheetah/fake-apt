@@ -9,21 +9,10 @@ First, download the version of fake-apt that works on your OS from releases. If 
 
 **Windows:** [Download](https://nightly.link/NinjaCheetah/fake-apt/workflows/main/main/fake-apt-windows.zip)
 
-Directions for getting the list of currently available commands are below. Note that the command syntax is deisgned to be identical to real `apt`'s syntax.
+Basic directions are available below. All of `fake-apt`'s syntax mimics `apt`'s.
 
-### macOS
-1. Open a terminal, and navigate to the folder that has the extracted program in it.
-2. Run `./fake-apt`
-3. Enjoy!
-### Linux
-1. Open a terminal, and navigate to the folder that has the extracted program in it.
-2. Run `./fake-apt`
-3. Enjoy!
-### Windows
-1. Open CMD or PowerShell, and navigate to the folder that has the extracted program in it.
-2. Run `.\fake-apt.exe`
-3. Enjoy!
+## Unfamiliar with `apt`?
+Run `./fake-apt` (or `.\fake-apt.exe` on Windows) in your favorite terminal or command prompt to see a list of `apt`'s commands. Every command you see listed is functional (to a degree). If you need some help with the syntax, note that not only are `apt`'s commands mimicked, but the error messages are too! If those aren't enough to tell you how to use it, any guide online on how to use `apt` should suffice.
+
 ## Limitations
-Currently, you can only install/reinstall 1 package at a time, rather than multiple like you can with real `apt`. `update`, `upgrade` and `full-upgrade` will return the same results every time, so no new updates will ever appear to be available.
-## About the legacy .NET 5 version
-The legacy .NET 5 version of fake-apt is now completely deprecated as the C version now supports Windows. It's source has been removed.
+Currently, you can only install/reinstall/remove 1 package at a time, rather than multiple like you can with real `apt`. `update`, `upgrade` and `full-upgrade` will return the same results every time, so no new updates will ever appear to be available. `edit-sources` just returns an error about not being able to unlock the database, due to the difficulties of opening an editor on all possible platforms.
