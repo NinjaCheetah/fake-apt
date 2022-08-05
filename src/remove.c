@@ -65,6 +65,7 @@ int apt_remove(int argc, char *argv[]) {
     printf("After this operation, %d mB disk space will be freed.\n", diskSpace);
     msleep(850);
     printf("Do you want to continue? [Y/n] ");
+    fflush(stdout);
     int chkAbort = getchar();
     if(chkAbort == 78 || chkAbort == 110) {
         printf("Abort.\n");
