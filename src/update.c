@@ -15,6 +15,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <stdio.h>
 // Local headers
 #include "../include/src/update.h"
+#include "../include/src/base.h"
 #include "../include/compat.h"
 #include "../include/cpuarch.h"
 // Use different headers for Windows
@@ -27,23 +28,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Start code
 int apt_update() {
     // This will (currently at least) never report updates, so it basically just prints out some text
+    char* apt_get_url = apt_fetch_get_url();
+    char* apt_get_os = apt_fetch_os();
     msleep(1000);
-    printf("Get:1 http://ports.ubuntu.com/ubuntu-ports jammy InRelease\n");
+    printf("Get:1 %s %s InRelease\n", apt_get_url, apt_get_os);
     fflush(stdout);
     msleep(750);
-    printf("Get:2 http://ports.ubuntu.com/ubuntu-ports jammy-updates InRelease [114 kB]\n");
+    printf("Get:2 %s %s-updates InRelease [114 kB]\n", apt_get_url, apt_get_os);
     fflush(stdout);
     msleep(750);
-    printf("Get:3 http://ports.ubuntu.com/ubuntu-ports jammy-backports InRelease [108 kB]\n");
+    printf("Get:3 %s %s-backports InRelease [108 kB]\n", apt_get_url, apt_get_os);
     fflush(stdout);
     msleep(750);
-    printf("Get:4 http://ports.ubuntu.com/ubuntu-ports jammy-security InRelease [114 kB]\n");
+    printf("Get:4 %s %s-security InRelease [114 kB]\n", apt_get_url, apt_get_os);
     fflush(stdout);
     msleep(750);
-    printf("Get:5 http://ports.ubuntu.com/ubuntu-ports jammy-updates/universe %s Packages [852 kB]\n", CPU_ARCH);
+    printf("Get:5 %s %s-updates/universe %s Packages [852 kB]\n", apt_get_url, apt_get_os, CPU_ARCH);
     fflush(stdout);
     msleep(750);
-    printf("Get:6 http://ports.ubuntu.com/ubuntu-ports jammy-updates/multiverse %s Packages [8,228 B]\n", CPU_ARCH);
+    printf("Get:6 %s %s-updates/multiverse %s Packages [8,228 B]\n", apt_get_url, apt_get_os, CPU_ARCH);
     fflush(stdout);
     msleep(1000);
     printf("Reading package lists... ");

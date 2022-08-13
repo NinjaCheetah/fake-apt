@@ -43,6 +43,7 @@ int apt_search(int argc,char *argv[]) {
     fflush(stdout);
     int versions[4];
     apt_create_version(versions);
-    printf("\e[0;32m%s\e[0m/jammy %d:%d.%d.%d all\n\n", argv[2], versions[0], versions[1], versions[2], versions[3]);
+    char* apt_get_os = apt_fetch_os();
+    printf("\e[0;32m%s\e[0m/%s %d:%d.%d.%d all\n\n", argv[2], apt_get_os, versions[0], versions[1], versions[2], versions[3]);
     return(0);
 }

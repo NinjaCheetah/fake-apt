@@ -51,6 +51,8 @@ int apt_show(int argc,char *argv[]) {
     apt_create_version(versions);
     int downloadSize = qrand(64);
     int installedSize = qrand(64) + downloadSize;
+    char* apt_get_url = apt_fetch_get_url();
+    char* apt_get_os = apt_fetch_os();
     printf("Package: %s\n", argv[2]);
     printf("Version: %d.%d.%d-%d\n", versions[0], versions[1], versions[2], versions[3]);
     printf("Priority: optional\n");
@@ -59,7 +61,7 @@ int apt_show(int argc,char *argv[]) {
     printf("Installed-Size: %d mB\n", installedSize);
     printf("Homepage: https://github.com/NinjaCheetah/fake-apt\n");
     printf("Download-Size: %d mB\n", downloadSize);
-    printf("APT-Sources: http://archive.ubuntu.com/ubuntu jammy-updates/universe %s Packages\n", CPU_ARCH);
+    printf("APT-Sources: %s %s-updates/universe %s Packages\n", apt_get_url, apt_get_os, CPU_ARCH);
     printf("Description: \n");
     int numWords = countWords(words_txt,words_txt_len);
     unsigned char **wordArray = malloc(numWords * sizeof(char *));

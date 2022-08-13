@@ -49,3 +49,21 @@ int apt_create_version(int versions[]) {
     }
     return(0);
 }
+char* apt_fetch_get_url() {
+#if defined(_WIN32)
+    return("https://packages.microsoft.com/windows");
+#elif defined(__APPLE__)
+    return("https://packages.apple.com/macos");
+#else
+    return("http://archive.ubuntu.com/ubuntu");
+#endif
+}
+char* apt_fetch_os() {
+#if defined(_WIN32)
+    return("windows-11");
+#elif defined(__APPLE__)
+    return("monterey");
+#else
+    return("jammy");
+#endif
+}

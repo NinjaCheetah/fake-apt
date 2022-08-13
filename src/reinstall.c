@@ -60,7 +60,9 @@ int apt_reinstall(int argc, char *argv[]) {
     // Get that nice pre-generated archive size and then output how much space it will use
     printf("Need to get %d mB of archives.\n", archiveSize);
     msleep(250);
-    printf("After this operation, 0 B of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versions[0],versions[1],versions[2],versions[3],archiveSize);
+    char* apt_get_url = apt_fetch_get_url();
+    char* apt_get_os = apt_fetch_os();
+    printf("After this operation, 0 B of additional disk space will be used.\nGet:1 %s %s/universe %s %s %s %d:%d.%d.%d [%d mB]\n",apt_get_url, apt_get_os, CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
     msleep(downloadTime);
     printf("Fetched %d mB in %ds\n", archiveSize, downloadTime / 1000);
     msleep(850);

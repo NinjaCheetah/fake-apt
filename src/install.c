@@ -99,11 +99,13 @@ int apt_install(int argc,char *argv[]) {
         return(1);
     }
     msleep(500);
-    printf("Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n", CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
+    char* apt_get_url = apt_fetch_get_url();
+    char* apt_get_os = apt_fetch_os();
+    printf("Get:1 %s %s/universe %s %s %s %d:%d.%d.%d [%d mB]\n", apt_get_url, apt_get_os, CPU_ARCH, fakePackage, CPU_ARCH, versions[0], versions[1], versions[2], versions[3], archiveSize);
     msleep(downloadTime);
     // If there's a dependency, download that too
     if(randGetDependencies==1){
-        printf("Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/universe %s %s %s %d:%d.%d.%d [%d mB]\n",CPU_ARCH,fakePackage,CPU_ARCH,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
+        printf("Get:2 %s %s/universe %s %s %s %d:%d.%d.%d [%d mB]\n", apt_get_url, apt_get_os, CPU_ARCH,fakePackage,CPU_ARCH,versionsd[0],versionsd[1],versionsd[2],versionsd[3],archiveSize2);
         msleep(downloadTime2);
     }
     printf("Fetched %d mB in %ds\n",totalDownSize,totalDownTime/1000);

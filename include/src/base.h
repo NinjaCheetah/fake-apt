@@ -18,5 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Declare base fake-apt functions
 int apt_init();
 int apt_create_version(int versions[]);
+char* apt_fetch_get_url();
+char* apt_fetch_os();
 
 #endif //FAKE_APT_BASE_H
