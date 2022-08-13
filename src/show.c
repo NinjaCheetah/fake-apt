@@ -29,15 +29,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <unistd.h>
 #endif
 // Start code
-int countWords(unsigned char *buffer,int size){
-    // Count number of words in the file based on newlines
-    int numWords=0,i;
-    for(i=0;i<size;i++){
-        char c=buffer[i];
-        if(c=='\n'||i==size-1)numWords++;
-    }
-    return numWords;
-}
 int apt_show(int argc,char *argv[]) {
     if(argc < 3) {
         msleep(750);
@@ -63,21 +54,8 @@ int apt_show(int argc,char *argv[]) {
     printf("Download-Size: %d mB\n", downloadSize);
     printf("APT-Sources: %s %s-updates/universe %s Packages\n", apt_get_url, apt_get_os, CPU_ARCH);
     printf("Description: \n");
-    int numWords = countWords(words_txt,words_txt_len);
-    unsigned char **wordArray = malloc(numWords * sizeof(char *));
-    int nextCharBeginsWord = 1;
-    int nCountedWords = 0;
-    for(i=0;i<words_txt_len;i++){
-        if(nextCharBeginsWord == 1) wordArray[nCountedWords++] = words_txt + i;
-        char c = words_txt[i];
-        if(c == '\n'){
-            nextCharBeginsWord=1;
-            words_txt[i]='\0';
-        }
-        else nextCharBeginsWord=0;
-    }
     for(i=0;i<64;i++){
-        printf(" %s", wordArray[rand() % nCountedWords]);
+        printf(" %s", words_txt[rand() % words_txt_count]);
     }
     printf(".\n");
     return(0);
